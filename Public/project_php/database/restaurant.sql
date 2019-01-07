@@ -86,11 +86,6 @@ CREATE TABLE `image` (
 -- Đang đổ dữ liệu cho bảng `image`
 --
 
-INSERT INTO `image` (`id`, `food_id`, `link`) VALUES
-(1, 1, 'rau muong.jpg'),
-(2, 4, 'lau.jpg'),
-(3, 5, 'lau.jpg'),
-(4, 1, '20141219161250-difference-between-successful-very-successful-people.jpeg');
 
 -- --------------------------------------------------------
 

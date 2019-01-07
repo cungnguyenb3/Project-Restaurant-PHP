@@ -53,6 +53,7 @@
                                         echo "<th>#</th>";
                                         echo "<th>Food ID</th>";
                                         echo "<th>Link</th>";
+                                        echo "<th>Action</th>";
                                     echo "</tr>";
                                 echo "</thead>";
                                 echo "<tbody>";
@@ -61,19 +62,13 @@
                                         echo "<td>" . $row['id'] . "</td>";
                                         echo "<td>" . $row['food_id'] . "</td>";
                                         echo "<td>" . $row['link'] . "</td>";
-                                        echo "<td>"; 
-                                            $idFood = $row['food_id'];
-                                            $sqlFood = "SELECT * FROM foods WHERE id = $food_id";
-                                            $resFood = mysqli_query($link,$sqlFood);
-                                            while ($rowCa = mysqli_fetch_assoc($resCategory))
-                                            {
-                                                ?>
-                                                <option value= "<?php echo $rowCa['id']; ?>"><?php echo $rowCa['food_name']; ?></option>
-                                               <?php
-                                           }
-                                       "</td>";
+                                        
                                         echo "<td>";
-                                            echo "<a href='read.php?id=". $row['id'] ."' title='View Record' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a>";
+                                            // gọi đến file read.ph
+                                            //  echo "<a href='read.php?id=". $row['id'] ."' title='View Record' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a>";
+                                            
+                                            //  gọi đến file showImage.php
+                                            echo "<a href='showImage.php?id=". $row['id'] ."' title='View Record' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a>";
                                             echo "<a href='update.php?id=". $row['id'] ."' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>";
                                             echo "<a href='delete.php?id=". $row['id'] ."' title='Delete Record' data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>";
                                         echo "</td>";
@@ -95,9 +90,24 @@
                     ?>
                 </div>
             </div> 
-
-            
-               
+            <div class="row">
+                <?php 
+                    $link = "./image/";
+                    if ($result->num_rows > 0) {
+                    // output data of each row
+                        while($row = $result->fetch_assoc()) {
+                ?>
+                            <div class="col-lg-3 col-md-3 mb-3">
+                                <div class="card h-100">
+                                    <img src="<?php echo $link.$row['link']; ?>" alt="Image">
+                                </div>
+                            </div>
+                            <p><?php  echo $link.$row['imgData'];?></p>
+                x<?php                   
+                        }
+                    } 
+                ?>
+            </div>               
         </div>
     </div>
 </body>
