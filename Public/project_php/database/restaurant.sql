@@ -201,7 +201,7 @@ ALTER TABLE `role`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `user_name` (`user_name`);
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT cho các bảng đã đổ

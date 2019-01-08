@@ -2,13 +2,13 @@
 if(isset($_POST['ok']))
 {
     $u=$p="";
-    if($_POST['username'] == NULL)
+    if($_POST['email'] == NULL)
     {
-        echo "Please enter your username<br />";
+        echo "Please enter your email<br />";
     }
     else
     {
-        $u=$_POST['username'];
+        $u=$_POST['email'];
     }
     if($_POST['password'] == NULL)
     {
@@ -23,19 +23,19 @@ if(isset($_POST['ok']))
     {
         $p = md5($p);
         $link = mysqli_connect("localhost", "root", "", "restaurant");
-        $sql="select * from users where user_name='".$u."' and password='".$p."'";
+        $sql="select * from users where email='".$u."' and password='".$p."'";
         $query=mysqli_query($link,$sql);
         // mysql_query($sql);
 
-        if(mysqli_num_rows($query) == 0)
+        if(mysqli_num_rows($link,$query) == 0)
         {
-            echo "Username or password is not correct, please try again";
+            echo "Email or password is not correct, please try again";
         }
         else
         {
             $row=mysqli_fetch_array($query);
             session_start();
-            
+            header("location: ./Admin.php");
         }
     }
 }
@@ -71,13 +71,14 @@ if(isset($_POST['ok']))
                     <div class="signin-form">
                         <h2 class="form-title">Sign up</h2>
                         <form method="POST" class="register-form" id="login-form" name="login-form" action="../index.html">
+                             
                             <div class="form-group">
-                                <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="your_name" id="your_name" placeholder="Your Name" required="" />
+                                <label for="email"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="email" name="email" id="email" placeholder="Your email" required="" />
                             </div>
                             <div class="form-group">
-                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="your_pass" id="your_pass" placeholder="Password" required="" />
+                                <label for="password"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="password" id="password" placeholder="Password" required="" />
                             </div>
                             <div class="form-group">
                                 <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
