@@ -156,15 +156,40 @@
                 </div>
                 <div class="p_recype_item_main">
                     <div class="row p_recype_item_active">
-                        <div class="col-md-6 break snacks">
+                        <div class="col-md-12 break snacks">
                             <div class="media">
-                                <div class="media-left">
-                                    <img src="img/recype/recype-1.jpg" alt="">
+                                <?php
+                                    error_reporting(1);
+                                    $link = mysqli_connect("localhost", "root", "", "restaurant");
+                                    mysqli_set_charset($link,'utf8');
+                                    $duongdan = './Admin/image-food/image/';
+                                    $sql = "SELECT * FROM foods, image, categories WHERE foods.id = image.food_id 
+                                    and categories.id = foods.category_id";
+                                    // echo $sql;
+                                    $result = $link->query($sql);
+                                    if ($result->num_rows > 0) {
+                                        // output data of each row
+                                      while($row = $result->fetch_assoc()) {?>
+                                            <!-- <div class="col-md-3 col-sm-9">
+                                                    
+                                                    <p style="color: red;"><?php echo $row["food_name"] ?></p><br>
+                                                    <img style="height: 30%; margin-top: 100px;" src="<?php echo $duongdan.$row["link"] ?>" alt=""><br>
+                                                    <?php echo $row["prices"] ?><br>
+                                                    <?php echo $row["description"] ?><br>
+                                                    <?php echo $row["cate_name"] ?><br>
+                                                    
+                                                     <?php echo "SELECT link FROM foods WHERE food_id = ".$row['id'] ?><br>
+                                               
+                                    </div> -->
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <div class="media-left">
+                                    <img style="height: 180px; width: 180px;" src="<?php echo $duongdan.$row["link"] ?>" alt="">
                                 </div>
                                 <div class="media-body">
-                                    <a href="#"><h3>Vegetable Flavour</h3></a>
-                                    <h4>$32</h4>
-                                    <p>Lorem ipsum dolor sit amets, consectetur adipiscing </p>
+                                    <a href="#"><h3><?php echo $row["food_name"] ?></h3></a>
+                                    <h4><?php echo $row["prices"] ?></h4>
+                                    <p><?php echo $row["description"] ?></p>
+                                    <p><?php echo $row["cate_name"] ?></p>
                                     <a class="read_mor_btn" href="#">Add To Cart</a>
                                     <ul>
                                         <li><a href="#"><i class="fa fa-star"></i></a></li>
@@ -174,9 +199,20 @@
                                         <li><a href="#"><i class="fa fa-star-half-o"></i></a></li>
                                     </ul>
                                 </div>
+                                    </div>
+                                
+
+
+                                
+
+
+                                  <?php
+                                      }
+                                    }
+                                  ?>
                             </div>
                         </div>
-                        <div class="col-md-6 break coffee">
+                        <!-- <div class="col-md-6 break coffee">
                             <div class="media">
                                 <div class="media-left">
                                     <img src="img/recype/recype-2.jpg" alt="">
@@ -435,7 +471,7 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

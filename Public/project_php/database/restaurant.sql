@@ -130,7 +130,6 @@ CREATE TABLE `role` (
 --
 -- Cấu trúc bảng cho bảng `users`
 --
-
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `user_name` varchar(255) CHARACTER SET utf8 NOT NULL,
