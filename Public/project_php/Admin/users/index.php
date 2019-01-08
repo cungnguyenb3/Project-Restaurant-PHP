@@ -6,22 +6,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Foods</title>
+    <title>Users</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js"></script>
-    <style type="text/css">
-        .wrapper{
-            width: 900px;
-            margin: 0 auto;
-        }
-        .page-header h2{
-            margin-top: 0;
-        }
-        table tr td:last-child a{
-            margin-right: 15px;
-        }
-    </style>
 
     <script type="text/javascript">
         $(document).ready(function(){
@@ -33,35 +21,33 @@
     <div class="wrapper">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-sm-2" style="margin-top: 180px;">
+                <div class="col-md-2" style="margin-top: 180px;">
                     <a href="../category/index.php" class="btn btn-danger" style="width: 150px;">Category</a>
-                    <a href="index.php" class="btn btn-danger" style="width: 150px;">Food</a>
+                    <a href="../foods/index.php" class="btn btn-danger" style="width: 150px;">Food</a>
                     <a href="../image-food/index.php" class="btn btn-danger" style="width: 150px;">Image</a>
-                    <a href="../users/index.php" class="btn btn-danger" style="width: 150px;">User</a>
+                    <a href="index.php" class="btn btn-danger" style="width: 150px;">User</a>
                 </div>
                 <div class="col-md-10">
                     <div class="page-header clearfix">
-                        <h2 class="pull-left">Foods Details</h2>
-                        <a href="create.php" class="btn btn-success pull-right" >Add New Foods</a>
-                        
+                        <h2 class="pull-left">Users Details</h2>
+                        <a href="create.php" class="btn btn-success pull-right" >Add New User</a>
                     </div>
                     <?php
                     // Include config file
-                    require_once "config.php";
-                    
+                    require_once "config.php";                    
                     // Attempt select query execution
-                    $sql = "SELECT * FROM foods";
+                    $sql = "SELECT * FROM users";
+                    $hash = '$2y$07$BCryptRequires22Chrcte/VlQH0piJtjXl.0t1XkA8pw9dMXTpOq';
                     if($result = mysqli_query($link, $sql)){
                         if(mysqli_num_rows($result) > 0){
                             echo "<table class='table table-bordered table-striped'>";
                                 echo "<thead>";
                                     echo "<tr>";
                                         echo "<th>#</th>";
-                                        echo "<th>Name</th>";
-                                        echo "<th>Prices</th>";
-                                        echo "<th>Decription</th>";
-                                        echo "<th>Category</th>";
-                                        echo "<th>Status</th>";
+                                        echo "<th>User Name</th>";
+                                        echo "<th>Phone Number</th>";
+                                        echo "<th>Email</th>";
+                                        echo "<th>Password</th>";
                                         echo "<th>Action</th>";
                                     echo "</tr>";
                                 echo "</thead>";
@@ -69,26 +55,14 @@
                                 while($row = mysqli_fetch_array($result)){
                                     echo "<tr>";
                                         echo "<td>" . $row['id'] . "</td>";
-                                        echo "<td>" . $row['food_name'] . "</td>";
-                                        echo "<td>" . $row['prices'] . "</td>";
-                                        echo "<td>" . $row['description'] . "</td>";
-                                        echo "<td>"; 
-                                            $idCategory = $row['category_id'];
-                                            $sqlCategory = "SELECT * FROM categories WHERE id = $idCategory";
-                                            $resCategory = mysqli_query($link,$sqlCategory);
-                                            while ($rowCa = mysqli_fetch_assoc($resCategory))
-                                            {
-                                                ?>
-                                                <option value= "<?php echo $rowCa['id']; ?>"><?php echo $rowCa['cate_name']; ?></option>
-
-                                               <?php
-                                           }
-                                       "</td>";
-                                        echo "<td>" . $row['status'] . "</td>";
+                                        echo "<td>" . $row['user_name'] . "</td>";
+                                        echo "<td>" . $row['phone'] . "</td>";
+                                        echo "<td>" . $row['email'] . "</td>";
+                                        echo "<td>" . $row['password'] . "</td>";
                                         echo "<td>";
                                             echo "<a href='read.php?id=". $row['id'] ."' title='View Record' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a>";
                                             echo "<a href='update.php?id=". $row['id'] ."' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>";
-                                            echo "<a href='delete.php?id=". $row['id'] ."' title='Delete Record' data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>";
+                                            echo "<a href='delete1.php?id=". $row['id'] ."' title='Delete Record' data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>";
                                         echo "</td>";
                                     echo "</tr>";
                                 }
@@ -107,10 +81,7 @@
                     mysqli_close($link);
                     ?>
                 </div>
-            </div> 
-
-            
-               
+            </div>           
         </div>
     </div>
 </body>

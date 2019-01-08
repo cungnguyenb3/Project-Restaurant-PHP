@@ -33,7 +33,13 @@
     <div class="wrapper">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-3" style="margin-top: 180px;">
+                    <a href="../category/index.php" class="btn btn-danger" style="width: 150px;">Category</a>
+                    <a href="../foods/index.php" class="btn btn-danger" style="width: 150px;">Food</a>
+                    <a href="index.php" class="btn btn-danger" style="width: 150px;">Image</a>
+                    <a href="../users/index.php" class="btn btn-danger" style="width: 150px;">User</a>
+                </div>
+                <div class="col-md-9">
                     <div class="page-header clearfix">
                         <h2 class="pull-left">Foods Details</h2>
                         <a href="create.php" class="btn btn-success pull-right" >Add New Image</a>
