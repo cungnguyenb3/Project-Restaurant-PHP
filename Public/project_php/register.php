@@ -7,17 +7,34 @@
         $email = $_POST['email'];
         $password = $_POST['pass'];
         $password_2 = $_POST['re_pass'];
-        if ($password == $password_2 ) {
+        //Kiểm tra email đã có người dùng chưa
+        $sql = "SELECT email FROM users WHERE email='$email'";
+    if (mysqli_num_rows(mysqli_query($link,$sql)) > 0)
+    {
+        echo "Email này đã có người dùng. Vui lòng chọn Email khác. <a href='javascript: history.go(-1)'>Trở lại</a>";
+        exit;
+    }else if ($password == $password_2 ) {
             $password = md5($password);
             $sql = "INSERT INTO users (user_name, phone, email, password) 
             VALUES ('$username', '$phone', '$email', '$password')";
             mysqli_query($link,$sql);
-            $_SESSION['message'] = 'You are now logged in';
+            //$_SESSION['message'] = 'You are now logged in';
             $_SESSION['username'] = $username;
-            echo $_SESSION['message'];
+            //echo $_SESSION['message'];
+
+            ?> 
+            <script type="text/javascript">
+                alert('You are now logged in');
+            </script> 
+        <?php 
         }else{
-            $_SESSION['message'] = 'The two password do not match';
-            echo $_SESSION['message'];
+            // $_SESSION['message'] = 'The two password do not match';
+            // echo $_SESSION['message'];
+            ?> 
+            <script type="text/javascript">
+                alert('The two password do not match');
+            </script> 
+            <?php 
         }
     }
 ?>
@@ -34,7 +51,7 @@
     <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
 
     <!-- Main css -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="regform/css/style.css">
 </head>
 <body>
 

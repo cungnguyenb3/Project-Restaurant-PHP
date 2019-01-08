@@ -23,7 +23,7 @@ if(isset($_POST['ok']))
 	{
 		$p = md5($p);
 		$link = mysqli_connect("localhost", "root", "", "restaurant");
-		$sql="select * from users where user_name='".$u."' and password='".$p."'";
+		$sql="select * from users where email='".$u."' and password='".$p."'";
 		$query=mysqli_query($link,$sql);
 		// mysql_query($sql);
 
@@ -41,7 +41,7 @@ if(isset($_POST['ok']))
 }
 ?>
 <form action='login.php' method='post'>
-	Username: <input type='text' name='username' size='25' /><br />
+	Username: <input type='email' name='username' size='25' /><br />
 	Password: <input type='password' name='password' size='25' /><br />
 	<input type='submit' name='ok' value='Dang Nhap' />
 </form>

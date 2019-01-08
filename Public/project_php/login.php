@@ -23,40 +23,37 @@ if(isset($_POST['ok']))
     {
         $p = md5($p);
         $link = mysqli_connect("localhost", "root", "", "restaurant");
-        $sql="select * from users where user_name='".$u."' and password='".$p."'";
+        $sql="select * from users where email='".$u."' and password='".$p."'";
         $query=mysqli_query($link,$sql);
         // mysql_query($sql);
 
         if(mysqli_num_rows($query) == 0)
         {
-            echo "Username or password is not correct, please try again";
+        ?> 
+            <script type="text/javascript">
+                alert('Username or password is not correct, please try again');
+            </script> 
+        <?php 
         }
         else
         {
             $row=mysqli_fetch_array($query);
             session_start();
-            
+            header("location: index.html");
         }
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sign Up Form by Colorlib</title>
-
-    <!-- Font Icon -->
-    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
-
+    <title>Document</title>
     <!-- Main css -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="regform/css/style.css">
 </head>
 <body>
-    
+
     <div class="main">
 
         <!-- Sing in  Form -->
@@ -70,21 +67,23 @@ if(isset($_POST['ok']))
 
                     <div class="signin-form">
                         <h2 class="form-title">Sign up</h2>
-                        <form method="POST" class="register-form" id="login-form" name="login-form" action="../index.html">
+                        <form method="POST" class="register-form" method='post' action="login.php">
+                             
                             <div class="form-group">
-                                <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="your_name" id="your_name" placeholder="Your Name" required="" />
+                                <label><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="email" name="username" placeholder="Your email" required="" />
+
                             </div>
                             <div class="form-group">
-                                <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="your_pass" id="your_pass" placeholder="Password" required="" />
+                                <label><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="password" placeholder="Password" required="" />
                             </div>
                             <div class="form-group">
                                 <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
                                 <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
                             </div>
                             <div class="form-group form-button">
-                                <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
+                                <input type="submit" name='ok' class="form-submit" value="Log in"/>
                             </div>
                         </form>
                         <div class="social-login">
@@ -102,8 +101,11 @@ if(isset($_POST['ok']))
 
     </div>
 
-    <!-- JS -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="js/main.js"></script>
-</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+<!-- 
+    <form action='login.php' method='post'>
+        Username: <input type='email' name='username' size='25' /><br />
+        Password: <input type='password' name='password' size='25' /><br />
+        <input type='submit' name='ok' value='Dang Nhap' />
+    </form> -->
+</body>
 </html>
