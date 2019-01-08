@@ -27,6 +27,7 @@ SET time_zone = "+00:00";
 --
 -- Cấu trúc bảng cho bảng `categories`
 --
+drop database if exists restaurant;
 create database restaurant;
 use restaurant;
 CREATE TABLE `categories` (
@@ -146,13 +147,6 @@ CREATE TABLE `users` (
   `password` varchar(255) CHARACTER SET utf8 NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Đang đổ dữ liệu cho bảng `users`
---
-
-INSERT INTO `users` (`id`, `user_name`, `phone`, `email`, `password`) VALUES
-(1, 'cung', 989710345, 'cungnguyen112b3@gmail.com', '202cb962ac59075b964b07152d234b70'),
-(2, 'thuy', 989710345, 'thuy@gmail.com', '$2y$10$/yo/0uzRDqKPc1WAbiUNnemhYUGP1WNocfLdiTtaN.M2OqCeImOmm');
 
 --
 -- Chỉ mục cho các bảng đã đổ
