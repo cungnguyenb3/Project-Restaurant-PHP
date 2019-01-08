@@ -35,7 +35,7 @@ if(isset($_POST['ok']))
         {
             $row=mysqli_fetch_array($query);
             session_start();
-            header("location: ./Admin.php");
+            
         }
     }
 }
@@ -70,7 +70,7 @@ if(isset($_POST['ok']))
 
                     <div class="signin-form">
                         <h2 class="form-title">Sign up</h2>
-                        <form method="POST" class="register-form" id="login-form" name="login-form" action="connect.php">
+                        <form method="POST" class="register-form" id="login-form" name="login-form" action="../index.html">
                             <div class="form-group">
                                 <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
                                 <input type="text" name="your_name" id="your_name" placeholder="Your Name" required="" />

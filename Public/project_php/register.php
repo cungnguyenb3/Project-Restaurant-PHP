@@ -7,13 +7,7 @@
         $email = $_POST['email'];
         $password = $_POST['pass'];
         $password_2 = $_POST['re_pass'];
-        //Kiểm tra email đã có người dùng chưa
-        $sql = "SELECT email FROM users WHERE email='$email'";
-    if (mysqli_num_rows(mysqli_query($link,$sql)) > 0)
-    {
-        echo "Email này đã có người dùng. Vui lòng chọn Email khác. <a href='javascript: history.go(-1)'>Trở lại</a>";
-        exit;
-    }else if ($password == $password_2 ) {
+        if ($password == $password_2 ) {
             $password = md5($password);
             $sql = "INSERT INTO users (user_name, phone, email, password) 
             VALUES ('$username', '$phone', '$email', '$password')";
