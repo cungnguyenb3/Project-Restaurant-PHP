@@ -42,7 +42,9 @@ CREATE TABLE `categories` (
 INSERT INTO `categories` (`id`, `cate_name`, `code`) VALUES
 (1, 'Món khai vị', 'KV'),
 (2, 'Món lẩu', 'ML'),
-(3, 'Món gỏi', 'MG');
+(3, 'Món chiên-xào-hấp', 'MCXH'),
+(4, 'Món nướng', 'MN'),
+(5, 'Món nhậu', 'MNN');
 
 -- --------------------------------------------------------
 
@@ -64,11 +66,17 @@ CREATE TABLE `foods` (
 --
 
 INSERT INTO `foods` (`id`, `food_name`, `prices`, `description`, `category_id`, `status`) VALUES
-(1, 'Rau muống xào tỏi', 35000, 'Món rau muống xào tỏi nè', 2, '1'),
-(3, 'Rau mồng tơi xào tỏi', 35000, 'Đây là món rau mồng tơi xào tỏi', 1, '2'),
-(4, 'Lẩu hải sản thái', 180000, 'Lẩu thái', 2, '1'),
-(5, 'Lẩu cá kèo', 200000, 'Đây là món lẩu cá kèo', 2, '2'),
-(6, 'Lẩu cá lóc', 300000, 'Món lẩu', 2, '2');
+(1, 'Gỏi bò cay', 59000, 'Đây là món khai vị', 1, '1'),
+(2, 'Ếch rang tiêu xanh', 59000, 'Đây là món ếch rang tiêu xanh', 1, '1'),
+(3, 'Khoai tây chiên', 29000, 'Đây là món khoai tây chiên', 1, '1'),
+(4, 'Bắp non xào hành', 29000, 'Đây là món bắp xào hành', 1, '1'),
+(5, 'Nghêu hấp', 39000, 'Đây là món nghêu hấp', 1, '1'),
+(6, 'Ba chỉ cuộn lá xanh', 39000, 'Đây là món ba chỉ cuốn lá xanh', 3, '2'),
+(7, 'Nghêu xào', 39000, 'Đây là món nghêu xào', 3, '2'),
+(8, 'Đậu bắp luộc', 19000, 'Đây là món đậu bắp luộc', 1, '1'),
+(9, 'Gỏi sứa', 39000, 'Đây là món gỏi sứa', 1, '1'),
+(10, 'Càng cua trộn hải sản', 49000, 'Đây là món càng cua trộn hải sản', 2, '1'),
+(11, 'Bạch tuộc nướng', 49000, 'Đây là món bạch tuộc nướng', 5, '3');
 
 -- --------------------------------------------------------
 
