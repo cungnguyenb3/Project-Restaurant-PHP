@@ -46,14 +46,12 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="header_contact_details">
-                            <a href="table.html"><i class="fa fa-phone"></i>+1 (168) 314 5016</a>
-                            <a href="event.html"><i class="fa fa-envelope-o"></i>+1 (168) 314 5016</a>
+                            
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="event_btn_inner">
-                            <a class="event_btn" href="#"><i class="fa fa-table" aria-hidden="true"></i>Book a Table</a>
-                            <a class="event_btn" href="#"><i class="fa fa-calendar" aria-hidden="true"></i>Book an Event</a>
+                            
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -146,30 +144,94 @@
             <div class="container">
                 <div class="popular_filter">
                     <ul>
-                        <li class="active" data-filter="*"><a href="">All</a></li>
-                        <li data-filter=".break"><a href="">Breakfast</a></li>
-                        <li data-filter=".lunch"><a href="">Lunch</a></li>
-                        <li data-filter=".dinner"><a href="">Dinner</a></li>
-                        <li data-filter=".snacks"><a href="">Snacks</a></li>
-                        <li data-filter=".coffee"><a href="">Coffee</a></li>
+                        <?php
+                                    error_reporting(1);
+                                    $link = mysqli_connect("localhost", "root", "", "restaurant");
+                                    mysqli_set_charset($link,'utf8');
+                                    $duongdan = './Admin/image-food/image/';
+                                    $sql = "SELECT * FROM foods, image, categories WHERE foods.id = image.food_id 
+                                    and categories.id = foods.category_id and limit 5";
+                                    // echo $sql;
+                                    $result = $link->query($sql);
+                                    
+                                    if ($result->num_rows > 0) {
+                                        // output data of each row
+                                      while($row = $result->fetch_assoc()) {
+                                        $count = 0;
+                                    while ($count <= 5) {
+                                        
+                                        ?>
+                                        <li><a href=""><?php echo $row["cate_name"] ?></a></li>
+                                    
+                                            <!-- <div class="col-md-3 col-sm-9">
+                                                    
+                                                    <p style="color: red;"><?php echo $row["food_name"] ?></p><br>
+                                                    <img style="height: 30%; margin-top: 100px;" src="<?php echo $duongdan.$row["link"] ?>" alt=""><br>
+                                                    <?php echo $row["prices"] ?><br>
+                                                    <?php echo $row["description"] ?><br>
+                                                    <?php echo $row["cate_name"] ?><br>
+                                                    
+                                                     <?php echo "SELECT link FROM foods WHERE food_id = ".$row['id'] ?><br>
+                                               
+                                    </div> -->
+                                    <!-- <li class="active" data-filter="*"><a href="">All</a></li> -->
+                                    <!-- <li><a href=""><?php echo $row["cate_name"] ?></a></li> -->
+                                    <!-- <li data-filter=".lunch"><a href=""><?php echo $row["cate_name"] ?></a></li>
+                                    <li data-filter=".dinner"><a href="">Dinner</a></li>
+                                    <li data-filter=".snacks"><a href="">Snacks</a></li>
+                                    <li data-filter=".coffee"><a href="">Coffee</a></li> -->
+                                  <?php
+                                  }
+                                      }
+                                    }
+                                  ?>
                     </ul>
                 </div>
                 <div class="p_recype_item_main">
                     <div class="row p_recype_item_active">
                         <div class="col-md-4 col-sm-6 break snacks">
                             <div class="feature_item">
-                                <div class="feature_item_inner">
-                                    <img src="img/menu-grid/Menu_Grid-1.jpg" alt="">
+
+
+                                <?php
+                                    error_reporting(1);
+                                    $link = mysqli_connect("localhost", "root", "", "restaurant");
+                                    mysqli_set_charset($link,'utf8');
+                                    $duongdan = './Admin/image-food/image/';
+                                    $sql = "SELECT * FROM foods, image, categories WHERE foods.id = image.food_id 
+                                    and categories.id = foods.category_id";
+                                    // echo $sql;
+                                    $result = $link->query($sql);
+                                    if ($result->num_rows > 0) {
+                                        // output data of each row
+                                      while($row = $result->fetch_assoc()) {?>
+                                            <!-- <div class="col-md-3 col-sm-9">
+                                                    
+                                                    <p style="color: red;"><?php echo $row["food_name"] ?></p><br>
+                                                    <img style="height: 30%; margin-top: 100px;" src="<?php echo $duongdan.$row["link"] ?>" alt=""><br>
+                                                    <?php echo $row["prices"] ?><br>
+                                                    <?php echo $row["description"] ?><br>
+                                                    <?php echo $row["cate_name"] ?><br>
+                                                    
+                                                     <?php echo "SELECT link FROM foods WHERE food_id = ".$row['id'] ?><br>
+                                               
+                                    </div> -->
+                                    <div class="feature_item_inner">
+                                    <img style="width: 100%" src="<?php echo $duongdan.$row["link"] ?>" alt="">
                                     <div class="icon_hover">
                                         <i class="fa fa-search"></i>
                                         <i class="fa fa-shopping-cart"></i>
                                     </div>
-                                </div>
-                                <div class="title_text">
-                                    <div class="feature_left"><a href="#"><span>Lasagne Pasta</span></a></div>
+                                    <div class="title_text">
+                                    <div class="feature_left"><a href="#"><span><?php echo $row["food_name"] ?></span></a></div>
                                     <div class="restaurant_feature_dots"></div>
-                                    <div class="feature_right">$16</div>
+                                    <div class="feature_right"><?php echo $row["prices"] ?></div>
                                 </div>
+                                </div>
+                                  <?php
+                                      }
+                                    }
+                                  ?>  
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6 break coffee">
