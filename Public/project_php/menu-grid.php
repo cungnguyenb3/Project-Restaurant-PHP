@@ -145,46 +145,107 @@
                 <div class="popular_filter">
                     <ul>
                         <?php
-                                    error_reporting(1);
-                                    $link = mysqli_connect("localhost", "root", "", "restaurant");
-                                    mysqli_set_charset($link,'utf8');
-                                    $duongdan = './Admin/image-food/image/';
-                                    $sql = "SELECT * FROM foods, image, categories WHERE foods.id = image.food_id 
-                                    and categories.id = foods.category_id and limit 5";
+                        error_reporting(1);
+                        $link = mysqli_connect("localhost", "root", "", "restaurant");
+                        mysqli_set_charset($link,'utf8');
+                        $duongdan = './Admin/image-food/image/';
+                        $sql = "SELECT * FROM categories WHERE  categories.id = 1";
                                     // echo $sql;
-                                    $result = $link->query($sql);
-                                    
-                                    if ($result->num_rows > 0) {
+                        $result = $link->query($sql);
+                        if ($result->num_rows > 0) {
                                         // output data of each row
-                                      while($row = $result->fetch_assoc()) {
-                                        $count = 0;
-                                    while ($count <= 5) {
-                                        
-                                        ?>
-                                        <li><a href=""><?php echo $row["cate_name"] ?></a></li>
-                                    
-                                            <!-- <div class="col-md-3 col-sm-9">
-                                                    
-                                                    <p style="color: red;"><?php echo $row["food_name"] ?></p><br>
-                                                    <img style="height: 30%; margin-top: 100px;" src="<?php echo $duongdan.$row["link"] ?>" alt=""><br>
-                                                    <?php echo $row["prices"] ?><br>
-                                                    <?php echo $row["description"] ?><br>
-                                                    <?php echo $row["cate_name"] ?><br>
-                                                    
-                                                     <?php echo "SELECT link FROM foods WHERE food_id = ".$row['id'] ?><br>
-                                               
-                                    </div> -->
-                                    <!-- <li class="active" data-filter="*"><a href="">All</a></li> -->
-                                    <!-- <li><a href=""><?php echo $row["cate_name"] ?></a></li> -->
-                                    <!-- <li data-filter=".lunch"><a href=""><?php echo $row["cate_name"] ?></a></li>
-                                    <li data-filter=".dinner"><a href="">Dinner</a></li>
-                                    <li data-filter=".snacks"><a href="">Snacks</a></li>
-                                    <li data-filter=".coffee"><a href="">Coffee</a></li> -->
-                                  <?php
-                                  }
-                                      }
-                                    }
-                                  ?>
+                          while($row = $result->fetch_assoc()) {
+                            ?>
+                            <li><a href=""><?php echo $row["cate_name"] ?></a></li>
+                            <?php
+                            }
+                        }
+                        ?>
+                        <?php
+                        error_reporting(1);
+                        $link = mysqli_connect("localhost", "root", "", "restaurant");
+                        mysqli_set_charset($link,'utf8');
+                        $duongdan = './Admin/image-food/image/';
+                        $sql = "SELECT * FROM categories WHERE  categories.id = 2";
+                                    // echo $sql;
+                        $result = $link->query($sql);
+                        if ($result->num_rows > 0) {
+                                        // output data of each row
+                          while($row = $result->fetch_assoc()) {
+                            ?>
+                            <li><a href=""><?php echo $row["cate_name"] ?></a></li>
+                            <?php
+                            }
+                        }
+                        ?>
+                        <?php
+                        error_reporting(1);
+                        $link = mysqli_connect("localhost", "root", "", "restaurant");
+                        mysqli_set_charset($link,'utf8');
+                        $duongdan = './Admin/image-food/image/';
+                        $sql = "SELECT * FROM categories WHERE  categories.id = 3";
+                                    // echo $sql;
+                        $result = $link->query($sql);
+                        if ($result->num_rows > 0) {
+                                        // output data of each row
+                          while($row = $result->fetch_assoc()) {
+                            ?>
+                            <li><a href=""><?php echo $row["cate_name"] ?></a></li>
+                            <?php
+                            }
+                        }
+                        ?>
+                        <?php
+                        error_reporting(1);
+                        $link = mysqli_connect("localhost", "root", "", "restaurant");
+                        mysqli_set_charset($link,'utf8');
+                        $duongdan = './Admin/image-food/image/';
+                        $sql = "SELECT * FROM categories WHERE  categories.id = 4";
+                                    // echo $sql;
+                        $result = $link->query($sql);
+                        if ($result->num_rows > 0) {
+                                        // output data of each row
+                          while($row = $result->fetch_assoc()) {
+                            ?>
+                            <li><a href=""><?php echo $row["cate_name"] ?></a></li>
+                            <?php
+                            }
+                        }
+                        ?>
+                        <?php
+                        error_reporting(1);
+                        $link = mysqli_connect("localhost", "root", "", "restaurant");
+                        mysqli_set_charset($link,'utf8');
+                        $duongdan = './Admin/image-food/image/';
+                        $sql = "SELECT * FROM categories WHERE  categories.id = 5";
+                                    // echo $sql;
+                        $result = $link->query($sql);
+                        if ($result->num_rows > 0) {
+                                        // output data of each row
+                          while($row = $result->fetch_assoc()) {
+                            ?>
+                            <li><a href=""><?php echo $row["cate_name"] ?></a></li>
+                            <?php
+                            }
+                        }
+                        ?>
+                        <?php
+                        error_reporting(1);
+                        $link = mysqli_connect("localhost", "root", "", "restaurant");
+                        mysqli_set_charset($link,'utf8');
+                        $duongdan = './Admin/image-food/image/';
+                        $sql = "SELECT * FROM categories WHERE  categories.id = 6";
+                                    // echo $sql;
+                        $result = $link->query($sql);
+                        if ($result->num_rows > 0) {
+                                        // output data of each row
+                          while($row = $result->fetch_assoc()) {
+                            ?>
+                            <li><a href=""><?php echo $row["cate_name"] ?></a></li>
+                            <?php
+                            }
+                        }
+                        ?>
                     </ul>
                 </div>
                 <div class="p_recype_item_main">
