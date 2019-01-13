@@ -116,17 +116,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <div class="form-group <?php echo (!empty($food_name_err)) ? 'has-error' : ''; ?>">
                             <label>Food Name</label>
-                            <input type="text" name="food_name" class="form-control" value="<?php echo $food_name; ?>" required="" >
+                            <input type="text" name="food_name" class="form-control" value="<?php echo $food_name; ?>">
                             <span class="help-block"><?php echo $food_name_err;?></span>
                         </div>
                         <div class="form-group <?php echo (!empty($prices_err)) ? 'has-error' : ''; ?>">
                             <label>Prices</label>
-                            <input type="number" name="prices" min="10000" class="form-control" required="" ><?php echo $prices; ?></input>
+                            <textarea name="prices" class="form-control"><?php echo $prices; ?></textarea>
                             <span class="help-block"><?php echo $prices_err;?></span>
                         </div>
                         <div class="form-group <?php echo (!empty($description_err)) ? 'has-error' : ''; ?>">
                             <label>Description</label>
-                            <textarea name="description" class="form-control" required="" minlength="2"><?php echo $description; ?></textarea>
+                            <textarea name="description" class="form-control"><?php echo $description; ?></textarea>
                             <span class="help-block"><?php echo $description_err;?></span>
                         </div>
                         <div class="form-group">
@@ -149,7 +149,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         </div>
                         <div class="form-group <?php echo (!empty($status_err)) ? 'has-error' : ''; ?>">
                             <label>Status</label>
-                            <input type="text" name="status" class="form-control" value="<?php echo $status; ?>" required="" >
+                            <input type="text" name="status" class="form-control" value="<?php echo $status; ?>">
                             <span class="help-block"><?php echo $status_err;?></span>
                         </div>
                         <input type="submit" class="btn btn-primary" value="Submit">
