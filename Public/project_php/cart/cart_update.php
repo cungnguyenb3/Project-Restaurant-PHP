@@ -23,7 +23,7 @@ if(isset($_POST["type"]) && $_POST["type"]=='add')
     }
  
     //Lấy thông tin chi tiết sản phẩm bằng product_id
-    $results = $mysqli->query("SELECT name, price FROM product WHERE product_id='$product_id' LIMIT 1");
+    $results = $mysqli->query("SELECT name, price FROM products WHERE product_id='$product_id' LIMIT 1");
     $obj = $results->fetch_object();
     
     if ($results) { //Kiểm tra có dữ liệu hay không

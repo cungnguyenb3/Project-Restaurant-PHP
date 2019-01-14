@@ -14,8 +14,7 @@ include_once("config.php");
 //URL hiện tại của trang. cart_update.php sẽ chuyển lại trang này.
 $current_url = base64_encode($_SERVER['REQUEST_URI']);
     
-    $results = $mysqli->query("SELECT * FROM product ORDER BY product_id ASC");
-
+    $results = $mysqli->query("SELECT * FROM products ORDER BY product_id ASC");
     if ($results) {
         //output results from database
         while($obj = $results->fetch_object())
@@ -45,6 +44,7 @@ $current_url = base64_encode($_SERVER['REQUEST_URI']);
 if(isset($_SESSION["products"]))
 {
     $total = 0;
+    $count = 0;
     echo '<ol>';
     foreach ($_SESSION["products"] as $cart_itm)
     {
@@ -57,7 +57,9 @@ if(isset($_SESSION["products"]))
         echo '</li>';
         $subtotal = ($cart_itm["price"]*$cart_itm["qty"]);
         $total = ($total + $subtotal);
+        $count = $count + $cart_itm["qty"];
     }
+        echo $count;
     echo '</ol>';
     echo '<span class="check-out-txt"><strong>Tổng : '.$currency.$total.'</strong> <a href="view_cart.php">Thanh toán!</a></span>';
     echo '<span class="empty-cart"><a href="cart_update.php?emptycart=1&return_url='.$current_url.'">Xóa tất cả</a></span>';

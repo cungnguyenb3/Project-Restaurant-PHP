@@ -39,7 +39,29 @@ if(isset($_POST['ok']))
         {
             $row=mysqli_fetch_array($query);
             session_start();
-            header("location: index.html");
+            $output = "SELECT user_name FROM users where email = '".$_POST['username']."'";
+
+            $results = $link->query($output);
+            if ($results->num_rows > 0) {
+                // output data of each row
+              while($row = $results->fetch_assoc()) {?>
+                    <div class="col-md-3 col-sm-9">
+                        <div class="service_item">
+                            <?php $_SESSION["username"] = $_GET['user_name']; 
+                                echo $_SESSION["username"];
+                            ?>
+                            <?php echo $row["user_name"] ?><br>
+                            
+              </div>
+            </div>
+          <?php
+              }
+            }
+
+
+            $_SESSION["username"] = $output;
+            echo $_SESSION["username"];
+            // header("location: index1.php");
         }
     }
 }

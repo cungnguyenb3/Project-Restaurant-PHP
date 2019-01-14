@@ -175,8 +175,7 @@
                                     $link = mysqli_connect("localhost", "root", "", "restaurant");
                                     mysqli_set_charset($link,'utf8');
                                     $duongdan = './Admin/image-food/image/';
-                                    $sql = "SELECT * FROM foods, image, categories WHERE foods.id = image.food_id 
-                                    and categories.id = foods.category_id";
+                                    $sql = "SELECT * FROM foods, image, categories WHERE foods.id = image.food_id and categories.id = foods.category_id";
                                     // echo $sql;
                                     $result = $link->query($sql);
                                     if ($result->num_rows > 0) {

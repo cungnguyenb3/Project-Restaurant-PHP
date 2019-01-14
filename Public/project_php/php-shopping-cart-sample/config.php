@@ -1,6 +1,5 @@
 <?php
-error_reporting(1);
-$currency = '$'; // đơn vị tiền tệ
+$currency = '$'; //Currency sumbol or code
 $mysqli = new mysqli('localhost', 'root', '','restaurant');
 mysqli_set_charset($mysqli,"utf8");
 ?>

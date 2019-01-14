@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<?php 
+    error_reporting(1);
+    session_start();
+    include_once("config.php"); 
+    echo "Ten cua ban: <b>".$_SESSION["username"]."</b>";
+ ?>
 <html lang="en">
     <head>
         <meta charset="utf-8">
