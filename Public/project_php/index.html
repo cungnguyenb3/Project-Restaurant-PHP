@@ -1,10 +1,4 @@
 <!DOCTYPE html>
-<?php 
-    error_reporting(1);
-    session_start();
-    include_once("config.php"); 
-    echo "Ten cua ban: <b>".$_SESSION["username"]."</b>";
- ?>
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -57,34 +51,21 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="header_contact_details">
-                            
+                            <a href="#"><i class="fa fa-phone"></i>+1 (168) 314 5016</a>
+                            <a href="#"><i class="fa fa-envelope-o"></i>+1 (168) 314 5016</a>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="event_btn_inner">
-                            
+                            <a class="event_btn" href="table.html"><i class="fa fa-table" aria-hidden="true"></i>Book a Table</a>
+                            <a class="event_btn" href="event.html"><i class="fa fa-calendar" aria-hidden="true"></i>Book an Event</a>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="header_social">
                             <ul>
-                                <!-- <?php 
-                                    // Include config file
-                                        require_once "config.php";
-                                        
-                                        // Prepare a select statement
-                                        $sql = "SELECT * FROM users";
-                                        
-                                        if($stmt = mysqli_prepare($link, $sql)){ ?>
-                                            <li><a href="#"><?php echo $_POST['user_name']; ?></a></li>
-                                        <?php 
-                                        // Close statement
-                                        mysqli_stmt_close($stmt);
-                                        
-                                        // Close connection
-                                        mysqli_close($link);
-                                    }
-                                ?> -->
+                               <a class="event_btn"><i class="fa fa-address-book" aria-hidden="true"></i> Login</a>
+                               <a class="event_btn"><i class="fa fa-address-card" aria-hidden="true"></i>Register</a>
                             </ul>
                         </div>
                     </div>
@@ -122,8 +103,8 @@
                             <li class="dropdown submenu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="menu-grid.php">Menu Grid</a></li>
-                                    <li><a href="menu-list.php">Menu List</a></li>
+                                    <li><a href="menu-grid.html">Menu Grid</a></li>
+                                    <li><a href="menu-list.html">Menu List</a></li>
                                 </ul>
                             </li>
                             <li><a href="gallery.html">Gallery</a></li>

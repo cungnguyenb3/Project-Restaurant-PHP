@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th1 07, 2019 lúc 05:39 AM
+-- Thời gian đã tạo: Th1 16, 2019 lúc 02:44 AM
 -- Phiên bản máy phục vụ: 10.1.37-MariaDB
 -- Phiên bản PHP: 7.2.12
 
@@ -27,7 +27,6 @@ SET time_zone = "+00:00";
 --
 -- Cấu trúc bảng cho bảng `categories`
 --
-drop database if exists restaurant;
 create database restaurant;
 use restaurant;
 CREATE TABLE `categories` (
@@ -41,11 +40,12 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `cate_name`, `code`) VALUES
-(1, 'Món khai vị', 'KV'),
-(2, 'Món lẩu', 'ML'),
-(3, 'Món chiên-xào-hấp', 'MCXH'),
-(4, 'Món nướng', 'MN'),
-(5, 'Món nhậu', 'MNN');
+(1, 'Món lẩu', 'ML'),
+(2, 'Món chiên-xào-hấp', 'MCXH'),
+(3, 'Món nướng', 'MN'),
+(4, 'Món nhậu', 'MNN'),
+(5, 'Món gà', 'MG'),
+(6, 'Món khai vị', 'KV');
 
 -- --------------------------------------------------------
 
@@ -68,16 +68,17 @@ CREATE TABLE `foods` (
 
 INSERT INTO `foods` (`id`, `food_name`, `prices`, `description`, `category_id`, `status`) VALUES
 (1, 'Gỏi bò cay', 59000, 'Đây là món khai vị', 1, '1'),
-(2, 'Ếch rang tiêu xanh', 59000, 'Đây là món ếch rang tiêu xanh', 1, '1'),
-(3, 'Khoai tây chiên', 29000, 'Đây là món khoai tây chiên', 1, '1'),
-(4, 'Bắp non xào hành', 29000, 'Đây là món bắp xào hành', 1, '1'),
-(5, 'Nghêu hấp', 39000, 'Đây là món nghêu hấp', 1, '1'),
+(2, 'Ếch rang tiêu xanh', 59000, 'Đây là món ếch rang tiêu xanh', 2, '1'),
+(3, 'Khoai tây chiên', 29000, 'Đây là món khoai tây chiên', 3, '1'),
+(4, 'Bắp non xào hành', 29000, 'Đây là món bắp xào hành', 4, '1'),
+(5, 'Nghêu hấp', 39000, 'Đây là món nghêu hấp', 4, '1'),
 (6, 'Ba chỉ cuộn lá xanh', 39000, 'Đây là món ba chỉ cuốn lá xanh', 3, '2'),
-(7, 'Nghêu xào', 39000, 'Đây là món nghêu xào', 3, '2'),
-(8, 'Đậu bắp luộc', 19000, 'Đây là món đậu bắp luộc', 1, '1'),
-(9, 'Gỏi sứa', 39000, 'Đây là món gỏi sứa', 1, '1'),
-(10, 'Càng cua trộn hải sản', 49000, 'Đây là món càng cua trộn hải sản', 2, '1'),
-(11, 'Bạch tuộc nướng', 49000, 'Đây là món bạch tuộc nướng', 5, '3');
+(7, 'Nghêu xào', 39000, 'Đây là món nghêu xào', 5, '2'),
+(8, 'Rau muống xào tỏi', 35000, 'Đây là món rau muống xào tỏi', 6, '1'),
+(9, 'Gỏi sứa', 39000, 'Đây là món gỏi sứa', 2, '1'),
+(10, 'Càng cua trộn hải sản', 49000, 'Đây là món càng cua trộn hải sản', 5, '1'),
+(11, 'Bạch tuộc nướng', 49000, 'Đây là món bạch tuộc nướng', 5, '3'),
+(12, 'Đậu bắp luộc', 19000, 'Đây là món đậu bắp luộc', 6, '1');
 
 -- --------------------------------------------------------
 
@@ -95,6 +96,18 @@ CREATE TABLE `image` (
 -- Đang đổ dữ liệu cho bảng `image`
 --
 
+INSERT INTO `image` (`id`, `food_id`, `link`) VALUES
+(1, 1, 'goibocay.jpg'),
+(2, 2, 'echrangtieuxanh.jpg'),
+(3, 3, 'khoaitaychien.jpg'),
+(4, 4, 'bapnonxao.jpg'),
+(5, 5, 'bachicuonlaxanh.jpg'),
+(6, 6, 'ngheuhap.jpg'),
+(7, 7, 'ngheuxao.jpg'),
+(8, 8, 'daubapluoc.jpg'),
+(9, 9, 'goisua.jpg'),
+(10, 10, 'cangcuatronhaisan.jpg'),
+(11, 11, 'bachtuocnuong.jpg');
 
 -- --------------------------------------------------------
 
@@ -129,24 +142,38 @@ CREATE TABLE `order_detail` (
 
 CREATE TABLE `role` (
   `id` int(11) NOT NULL,
-  `office` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `role` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `user_id` int(11) NOT NULL
+  `role` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Đang đổ dữ liệu cho bảng `role`
+--
+
+INSERT INTO `role` (`id`, `role`) VALUES
+(1, 'user'),
+(2, 'admin');
 
 -- --------------------------------------------------------
 
 --
 -- Cấu trúc bảng cho bảng `users`
 --
+
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `user_name` varchar(255) CHARACTER SET utf8 NOT NULL,
   `phone` int(11) NOT NULL,
   `email` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `password` varchar(255) CHARACTER SET utf8 NOT NULL
+  `password` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `role_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Đang đổ dữ liệu cho bảng `users`
+--
+
+INSERT INTO `users` (`id`, `user_name`, `phone`, `email`, `password`, `role_id`) VALUES
+(1, 'Admin', 123456789, 'admin@gmail.com', '$2y$10$zWKL4C01Z1XyRNFY.PuyROSuQqK7Wf9KH8HCHpwaEVEj48jPZ6y3.', 2);
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -193,15 +220,17 @@ ALTER TABLE `order_detail`
 -- Chỉ mục cho bảng `role`
 --
 ALTER TABLE `role`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD UNIQUE KEY `user_name` (`user_name`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `role_id` (`id`),
+  ADD KEY `role_ibfk_1` (`role_id`);
 
 --
 -- AUTO_INCREMENT cho các bảng đã đổ
@@ -211,19 +240,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT cho bảng `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `foods`
 --
 ALTER TABLE `foods`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT cho bảng `image`
 --
 ALTER TABLE `image`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT cho bảng `orders`
@@ -235,13 +264,13 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT cho bảng `role`
 --
 ALTER TABLE `role`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
@@ -273,10 +302,10 @@ ALTER TABLE `order_detail`
   ADD CONSTRAINT `order_detail_ibfk_2` FOREIGN KEY (`food_id`) REFERENCES `foods` (`id`);
 
 --
--- Các ràng buộc cho bảng `role`
+-- Các ràng buộc cho bảng `users`
 --
-ALTER TABLE `role`
-  ADD CONSTRAINT `role_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+ALTER TABLE `users`
+  ADD CONSTRAINT `role_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

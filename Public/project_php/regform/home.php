@@ -1,6 +1,7 @@
-<?php  
+<?php 
+    error_reporting(1); 
     session_start();
-    
+    require_once('config.php');
 ?>
 
 <!DOCTYPE html>
@@ -9,6 +10,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+
     <title>Sign Up Form by Colorlib</title>
 
     <!-- Font Icon -->
@@ -20,11 +23,17 @@
 <body>
 
     <div class="main">
-
-        <!-- Sign up form -->
         <h1>Home</h1>
-        <div><h4>Welcome <?php echo $_SESSION['username']; ?></h4></div>
-
+        <div> 
+            <?php 
+                if ($_SESSION['role_id'] == 1) {
+                    echo "<h4>"."Đây là user có username là ".$_SESSION['username']."</h4>" ;
+                } else if ($_SESSION['role_id'] == 2) {
+                    echo "<h4>"."Đây là admin có username là ".$_SESSION['username']."</h4>";
+                }
+            ?>
+            <p><a href="logout.php" class="btn btn-primary">Log out</a></p>
+        </div>
     </div>
     
     <!-- JS -->

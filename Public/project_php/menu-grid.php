@@ -98,7 +98,7 @@
                             <li class="dropdown submenu active">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="menu-grid.html">Menu Grid</a></li>
+                                    <li><a href="menu-grid.php">Menu Grid</a></li>
                                     <li><a href="menu-list.php">Menu List</a></li>
                                 </ul>
                             </li>
@@ -144,203 +144,202 @@
             <div class="container">
                 <div class="popular_filter">
                     <ul>
+                        <li class="active" data-filter="*"><a href="">All</a></li>
+                    </ul>
+                </div>
+                <div class="popular_filter">
+                    <ul>
                         <?php
                         error_reporting(1);
                         $link = mysqli_connect("localhost", "root", "", "restaurant");
                         mysqli_set_charset($link,'utf8');
-                        $duongdan = './Admin/image-food/image/';
-                        $sql = "SELECT * FROM categories";
+                        $sql = "SELECT * FROM categories WHERE id = 2";
                                     // echo $sql;
                         $result = $link->query($sql);
                         if ($result->num_rows > 0) {
                                         // output data of each row
                           while($row = $result->fetch_assoc()) {
                             ?>
-                            <li><a href=""><?php echo $row["cate_name"] ?></a></li>
+                            <li data-filter=".break"><a href=""><?php echo $row["cate_name"] ?></a></li>
                             <?php
                             }
                         }
                         ?>
                     </ul>
                 </div>
+
                 <div class="p_recype_item_main">
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            
-                            <div class="feature_item">
-
-
-                                <?php
-                                    error_reporting(1);
-                                    $link = mysqli_connect("localhost", "root", "", "restaurant");
-                                    mysqli_set_charset($link,'utf8');
-                                    $duongdan = './Admin/image-food/image/';
-                                    $sql = "SELECT * FROM foods, image, categories WHERE foods.id = image.food_id and categories.id = foods.category_id";
-                                    // echo $sql;
-                                    $result = $link->query($sql);
-                                    if ($result->num_rows > 0) {
-                                        // output data of each row
-                                      while($row = $result->fetch_assoc()) {?>
-                                            <!-- <div class="col-md-3 col-sm-9">
-                                                    
-                                                    <p style="color: red;"><?php echo $row["food_name"] ?></p><br>
-                                                    <img style="height: 30%; margin-top: 100px;" src="<?php echo $duongdan.$row["link"] ?>" alt=""><br>
-                                                    <?php echo $row["prices"] ?><br>
-                                                    <?php echo $row["description"] ?><br>
-                                                    <?php echo $row["cate_name"] ?><br>
-                                                    
-                                                     <?php echo "SELECT link FROM foods WHERE food_id = ".$row['id'] ?><br>
-                                               
-                                    </div> -->
-                                    <div class="col-md-4 break snacks">
-                                    <div class="feature_item_inner">
-                                    <img style="width: 100%; height: 200px" src="<?php echo $duongdan.$row["link"] ?>" alt="">
-                                    <div class="icon_hover">
-                                        <i class="fa fa-search"></i>
-                                        <i class="fa fa-shopping-cart"></i>
-                                    </div>
-                                    <div class="title_text">
-                                    <div class="feature_left"><a href="#"><span><?php echo $row["food_name"] ?></span></a></div>
-                                    <div class="restaurant_feature_dots"></div>
-                                    <div class="feature_right"><?php echo $row["prices"] ?></div>
-                                </div>
-                                </div>
-                                 </div>
-                                  <?php
-                                      }
+                            <?php
+                                error_reporting(1);
+                                $link = mysqli_connect("localhost", "root", "", "restaurant");
+                                mysqli_set_charset($link,'utf8');
+                                $duongdan = './Admin/image-food/image/';
+                                $sql = "SELECT * FROM foods, image, categories WHERE foods.id = image.food_id and categories.id = foods.category_id";
+                                // echo $sql;
+                                $result = $link->query($sql);
+                                if ($result->num_rows > 0) {
+                                    // output data of each row
+                                    while($row = $result->fetch_assoc()) {?>
+                                        <!-- <div class="col-md-3 col-sm-9">
+                                            <p style="color: red;"><?php echo $row["food_name"] ?></p><br>
+                                            <img style="height: 30%; margin-top: 100px;" src="<?php echo $duongdan.$row["link"] ?>" alt=""><br>
+                                            <?php echo $row["prices"] ?><br>
+                                            <?php echo $row["description"] ?><br>
+                                            <?php echo $row["cate_name"] ?><br>
+                                            <?php echo "SELECT link FROM foods WHERE food_id = ".$row['id'] ?><br>
+                                        </div> -->
+                                        <div class="feature_item">
+                                            <div class="col-md-4 afternoon snacks" style="margin-top: 30px">
+                                                <div class="feature_item_inner">
+                                                    <img style="width: 100%; height: 200px" src="<?php echo $duongdan.$row["link"] ?>" alt="">
+                                                    <div class="icon_hover">
+                                                        <i class="fa fa-search"></i>
+                                                        <i class="fa fa-shopping-cart"></i>
+                                                    </div>
+                                                    <div class="title_text">
+                                                        <div class="feature_left"><a href="#"><span><?php echo $row["food_name"] ?></span></a></div>
+                                                        <div class="restaurant_feature_dots"></div>
+                                                        <div class="feature_right"><?php echo $row["prices"] ?></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php
                                     }
-                                  ?>  
-                            </div>
-                       
+                                }
+                            ?>  
                         </div>
-                        
-                        <div class="col-md-4 col-sm-6 break coffee">
-                            <div class="feature_item">
-                                <div class="feature_item_inner">
-                                    <img src="img/menu-grid/Menu_Grid-2.jpg" alt="">
-                                    <div class="icon_hover">
-                                        <i class="fa fa-search"></i>
-                                        <i class="fa fa-shopping-cart"></i>
-                                    </div>
-                                </div>
-                                <div class="title_text">
-                                    <div class="feature_left"><a href="#"><span>Barbecue Chicken</span></a></div>
-                                    <div class="restaurant_feature_dots"></div>
-                                    <div class="feature_right">$25</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 lunch snacks">
-                            <div class="feature_item">
-                                <div class="feature_item_inner">
-                                    <img src="img/menu-grid/Menu_Grid-3.jpg" alt="">
-                                    <div class="icon_hover">
-                                        <i class="fa fa-search"></i>
-                                        <i class="fa fa-shopping-cart"></i>
-                                    </div>
-                                </div>
-                                <div class="title_text">
-                                    <div class="feature_left"><a href="#"><span>Hamburger</span></a></div>
-                                    <div class="restaurant_feature_dots"></div>
-                                    <div class="feature_right">$50</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 lunch dinner">
-                            <div class="feature_item">
-                                <div class="feature_item_inner">
-                                    <img src="img/menu-grid/Menu_Grid-4.jpg" alt="">
-                                    <div class="icon_hover">
-                                        <i class="fa fa-search"></i>
-                                        <i class="fa fa-shopping-cart"></i>
-                                    </div>
-                                </div>
-                                <div class="title_text">
-                                    <div class="feature_left"><a href="#"><span>Meal</span></a></div>
-                                    <div class="restaurant_feature_dots"></div>
-                                    <div class="feature_right">$65</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 break snacks">
-                            <div class="feature_item">
-                                <div class="feature_item_inner">
-                                    <img src="img/menu-grid/Menu_Grid-5.jpg" alt="">
-                                    <div class="icon_hover">
-                                        <i class="fa fa-search"></i>
-                                        <i class="fa fa-shopping-cart"></i>
-                                    </div>
-                                </div>
-                                <div class="title_text">
-                                    <div class="feature_left"><a href="#"><span>Soup Recipes</span></a></div>
-                                    <div class="restaurant_feature_dots"></div>
-                                    <div class="feature_right">$36</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 break coffee">
-                            <div class="feature_item">
-                                <div class="feature_item_inner">
-                                    <img src="img/menu-grid/Menu_Grid-6.jpg" alt="">
-                                    <div class="icon_hover">
-                                        <i class="fa fa-search"></i>
-                                        <i class="fa fa-shopping-cart"></i>
-                                    </div>
-                                </div>
-                                <div class="title_text">
-                                    <div class="feature_left"><a href="#"><span>Sea Food</span></a></div>
-                                    <div class="restaurant_feature_dots"></div>
-                                    <div class="feature_right">$75</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 lunch snacks">
-                            <div class="feature_item">
-                                <div class="feature_item_inner">
-                                    <img src="img/menu-grid/Menu_Grid-7.jpg" alt="">
-                                    <div class="icon_hover">
-                                        <i class="fa fa-search"></i>
-                                        <i class="fa fa-shopping-cart"></i>
-                                    </div>
-                                </div>
-                                <div class="title_text">
-                                    <div class="feature_left"><a href="#"><span>Green Tea</span></a></div>
-                                    <div class="restaurant_feature_dots"></div>
-                                    <div class="feature_right">$15</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 lunch dinner">
-                            <div class="feature_item">
-                                <div class="feature_item_inner">
-                                    <img src="img/menu-grid/Menu_Grid-8.jpg" alt="">
-                                    <div class="icon_hover">
-                                        <i class="fa fa-search"></i>
-                                        <i class="fa fa-shopping-cart"></i>
-                                    </div>
-                                </div>
-                                <div class="title_text">
-                                    <div class="feature_left"><a href="#"><span>Breakfast Rool</span></a></div>
-                                    <div class="restaurant_feature_dots"></div>
-                                    <div class="feature_right">$17</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6 lunch dinner">
-                            <div class="feature_item">
-                                <div class="feature_item_inner">
-                                    <img src="img/menu-grid/Menu_Grid-9.jpg" alt="">
-                                    <div class="icon_hover">
-                                        <i class="fa fa-search"></i>
-                                        <i class="fa fa-shopping-cart"></i>
-                                    </div>
-                                </div>
-                                <div class="title_text">
-                                    <div class="feature_left"><a href="#"><span>Hamburger</span></a></div>
-                                    <div class="restaurant_feature_dots"></div>
-                                    <div class="feature_right">$25</div>
-                                </div>
-                            </div>
+                    </div>
+                </div>
+
+
+                <div class="p_recype_item_main">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <?php
+                                error_reporting(1);
+                                $link = mysqli_connect("localhost", "root", "", "restaurant");
+                                mysqli_set_charset($link,'utf8');
+                                $duongdan = './Admin/image-food/image/';
+                                $sql = "SELECT * FROM foods, image, categories WHERE foods.id = image.food_id and categories.id = foods.category_id and foods.category_id = 1";
+                                // echo $sql;
+                                $result = $link->query($sql);
+                                if ($result->num_rows > 0) {
+                                    // output data of each row
+                                    while($row = $result->fetch_assoc()) {?>
+                                        <!-- <div class="col-md-3 col-sm-9">
+                                            <p style="color: red;"><?php echo $row["food_name"] ?></p><br>
+                                            <img style="height: 30%; margin-top: 100px;" src="<?php echo $duongdan.$row["link"] ?>" alt=""><br>
+                                            <?php echo $row["prices"] ?><br>
+                                            <?php echo $row["description"] ?><br>
+                                            <?php echo $row["cate_name"] ?><br>
+                                            <?php echo "SELECT link FROM foods WHERE food_id = ".$row['id'] ?><br>
+                                        </div> -->
+                                        <div class="feature_item">
+                                            <div class="col-md-4 break snacks" style="margin-top: 30px">
+                                                <div class="feature_item_inner">
+                                                    <img style="width: 100%; height: 200px" src="<?php echo $duongdan.$row["link"] ?>" alt="">
+                                                    <div class="icon_hover">
+                                                        <i class="fa fa-search"></i>
+                                                        <i class="fa fa-shopping-cart"></i>
+                                                    </div>
+                                                    <div class="title_text">
+                                                        <div class="feature_left"><a href="#"><span><?php echo $row["food_name"] ?></span></a></div>
+                                                        <div class="restaurant_feature_dots"></div>
+                                                        <div class="feature_right"><?php echo $row["prices"] ?></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php
+                                    }
+                                }
+                            ?>
+
+                            <?php
+                                error_reporting(1);
+                                $link = mysqli_connect("localhost", "root", "", "restaurant");
+                                mysqli_set_charset($link,'utf8');
+                                $duongdan = './Admin/image-food/image/';
+                                $sql = "SELECT * FROM foods, image, categories WHERE foods.id = image.food_id and categories.id = foods.category_id and foods.category_id = 2";
+                                // echo $sql;
+                                $result = $link->query($sql);
+                                if ($result->num_rows > 0) {
+                                    // output data of each row
+                                    while($row = $result->fetch_assoc()) {?>
+                                        <!-- <div class="col-md-3 col-sm-9">
+                                            <p style="color: red;"><?php echo $row["food_name"] ?></p><br>
+                                            <img style="height: 30%; margin-top: 100px;" src="<?php echo $duongdan.$row["link"] ?>" alt=""><br>
+                                            <?php echo $row["prices"] ?><br>
+                                            <?php echo $row["description"] ?><br>
+                                            <?php echo $row["cate_name"] ?><br>
+                                            <?php echo "SELECT link FROM foods WHERE food_id = ".$row['id'] ?><br>
+                                        </div> -->
+                                        <div class="feature_item">
+                                            <div class="col-md-4 a snacks" style="margin-top: 30px">
+                                                <div class="feature_item_inner">
+                                                    <img style="width: 100%; height: 200px" src="<?php echo $duongdan.$row["link"] ?>" alt="">
+                                                    <div class="icon_hover">
+                                                        <i class="fa fa-search"></i>
+                                                        <i class="fa fa-shopping-cart"></i>
+                                                    </div>
+                                                    <div class="title_text">
+                                                        <div class="feature_left"><a href="#"><span><?php echo $row["food_name"] ?></span></a></div>
+                                                        <div class="restaurant_feature_dots"></div>
+                                                        <div class="feature_right"><?php echo $row["prices"] ?></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php
+                                    }
+                                }
+                            ?> 
+
+
+                            <?php
+                                error_reporting(1);
+                                $link = mysqli_connect("localhost", "root", "", "restaurant");
+                                mysqli_set_charset($link,'utf8');
+                                $duongdan = './Admin/image-food/image/';
+                                $sql = "SELECT * FROM foods, image, categories WHERE foods.id = image.food_id and categories.id = foods.category_id and foods.category_id = 3";
+                                // echo $sql;
+                                $result = $link->query($sql);
+                                if ($result->num_rows > 0) {
+                                    // output data of each row
+                                    while($row = $result->fetch_assoc()) {?>
+                                        <!-- <div class="col-md-3 col-sm-9">
+                                            <p style="color: red;"><?php echo $row["food_name"] ?></p><br>
+                                            <img style="height: 30%; margin-top: 100px;" src="<?php echo $duongdan.$row["link"] ?>" alt=""><br>
+                                            <?php echo $row["prices"] ?><br>
+                                            <?php echo $row["description"] ?><br>
+                                            <?php echo $row["cate_name"] ?><br>
+                                            <?php echo "SELECT link FROM foods WHERE food_id = ".$row['id'] ?><br>
+                                        </div> -->
+                                        <div class="feature_item">
+                                            <div class="col-md-4 break snacks" style="margin-top: 30px">
+                                                <div class="feature_item_inner">
+                                                    <img style="width: 100%; height: 200px" src="<?php echo $duongdan.$row["link"] ?>" alt="">
+                                                    <div class="icon_hover">
+                                                        <i class="fa fa-search"></i>
+                                                        <i class="fa fa-shopping-cart"></i>
+                                                    </div>
+                                                    <div class="title_text">
+                                                        <div class="feature_left"><a href="#"><span><?php echo $row["food_name"] ?></span></a></div>
+                                                        <div class="restaurant_feature_dots"></div>
+                                                        <div class="feature_right"><?php echo $row["prices"] ?></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php
+                                    }
+                                }
+                            ?>
+
+
                         </div>
                     </div>
                 </div>

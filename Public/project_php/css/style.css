@@ -966,14 +966,14 @@ body, p, h1, h2, h3, h4, h5, h6 {
 }
 
 .feature_item .feature_item_inner {
-  position: none;
+  position: relative;
   z-index: 3;
 }
 
 .feature_item .feature_item_inner:before {
   content: "";
   background: rgba(0, 0, 0, 0.5);
-  position: none;
+  position: absolute;
   left: 0px;
   top: 0;
   width: 100%;
@@ -995,7 +995,7 @@ body, p, h1, h2, h3, h4, h5, h6 {
 
 .feature_item .feature_item_inner .icon_hover {
   text-align: center;
-  position: none;
+  position: absolute;
   width: 100%;
   left: 0px;
   top: 50%;
@@ -1065,7 +1065,7 @@ body, p, h1, h2, h3, h4, h5, h6 {
   display: table-cell;
   width: 98%;
   z-index: 1;
-  position: none;
+  position: relative;
 }
 
 .feature_item .title_text .feature_right {
