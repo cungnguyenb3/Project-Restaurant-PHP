@@ -28,6 +28,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
                 $description = $row["description"];
                 $category_id = $row["category_id"];
                 $status = $row["status"];
+                $code = $row["code"];
             } else{
                 // URL doesn't contain valid id parameter. Redirect to error page
                 header("location: error.php");
@@ -53,7 +54,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>View Food</title>
+    <title>View Products</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
     <style type="text/css">
         .wrapper{
@@ -89,6 +90,10 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
                     <div class="form-group">
                         <label>Status</label>
                         <p class="form-control-static"><?php echo $row["status"]; ?></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Code</label>
+                        <p class="form-control-static"><?php echo $row["code"]; ?></p>
                     </div>
                     <p><a href="index.php" class="btn btn-primary">Back</a></p>
                 </div>

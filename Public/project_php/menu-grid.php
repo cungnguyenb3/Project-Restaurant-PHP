@@ -1,6 +1,3 @@
-<?php 
-    include('numberToWord.php');
-?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -49,12 +46,14 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="header_contact_details">
-                            
+                            <a href="table.html"><i class="fa fa-phone"></i>+1 (168) 314 5016</a>
+                            <a href="event.html"><i class="fa fa-envelope-o"></i>+1 (168) 314 5016</a>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="event_btn_inner">
-                            
+                            <a class="event_btn" href="#"><i class="fa fa-table" aria-hidden="true"></i>Book a Table</a>
+                            <a class="event_btn" href="#"><i class="fa fa-calendar" aria-hidden="true"></i>Book an Event</a>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -101,8 +100,8 @@
                             <li class="dropdown submenu active">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="menu-grid.php">Menu Grid</a></li>
-                                    <li><a href="menu-list.php">Menu List</a></li>
+                                    <li><a href="menu-grid.html">Menu Grid</a></li>
+                                    <li><a href="menu-list.html">Menu List</a></li>
                                 </ul>
                             </li>
                             <li><a href="gallery.html">Gallery</a></li>
@@ -136,7 +135,7 @@
                 <div class="banner_content">
                     <h4>Menu Grid</h4>
                     <a href="#">Home</a>
-                    <a class="active" href="menu-list.php">Menu</a>
+                    <a class="active" href="menu-list.html">Menu</a>
                 </div>
             </div>
         </section>
@@ -149,9 +148,10 @@
                     <ul>
                         <li class="active" data-filter="*"><a href="">All</a></li>
                         <?php 
+                            require('numberToWord.php');
+                            require('config.php');
                             error_reporting(1);
-                            $link = mysqli_connect("localhost", "root", "", "restaurant");
-                            mysqli_set_charset($link,'utf8');
+
                             $a = "SELECT count(id) FROM categories";
 
                             $c=mysqli_query("SELECT count(*) as total from categories");
@@ -161,7 +161,7 @@
                             $b = $a;
                             echo $c;
                             for ($i=1; $i <= 99; $i++) { 
-                                $sql = "SELECT * FROM categories WHERE parentID IS null and id = ".$i;
+                                $sql = "SELECT * FROM categories WHERE id IN (8,12,16,19) and id = ".$i;
                             // echo $sql;
                             $result = $link->query($sql);
                             if ($result->num_rows > 0) {
@@ -176,7 +176,6 @@
                     </ul>
                 </div>
 
-
                 <div class="p_recype_item_main">
                     <div class="row p_recype_item_active">
                         <?php
@@ -185,33 +184,35 @@
                             mysqli_set_charset($link,'utf8');
                             $duongdan = './Admin/image-food/image/';
                             for ($i=0; $i <= 99; $i++) { 
-                                $sql = "SELECT * FROM products, images, categories WHERE products.id = images.product_id and categories.id = products.category_id and products.category_id = ".$i;
+                                $sql = "SELECT * FROM products, images, categories WHERE products.id = images.product_id and categories.id = products.category_id and categories.parentID NOT IN(1) and categories.parentID = ".$i;
                                 // echo $sql;
                                 $result = $link->query($sql);
                                 if ($result->num_rows > 0) {
                                     // output data of each row
                                     while($row = $result->fetch_assoc()) {?>
-                                        <div class="col-md-4 <?php echo convert_number_to_words($i) ?>" style="margin-top: 30px">
+                                            <div class="col-md-4 <?php echo convert_number_to_words($i) ?>" style="margin-top: 30px">
                                             <div class="feature_item">
-                                                <div class="feature_item_inner">
-                                                    <img style="height: 250px; width: 100%;" src="<?php echo $duongdan.$row["link"] ?>" alt="">
-                                                    <div class="icon_hover">
-                                                        <i class="fa fa-search"></i>
-                                                        <i class="fa fa-shopping-cart"></i>
-                                                    </div>
-                                                    <div class="title_text">
-                                                        <div class="feature_left"><a href="#"><span><?php echo $row["product_name"] ?></span></a></div>
-                                                        <div class="restaurant_feature_dots"></div>
-                                                        <div class="feature_right"><?php echo $row["prices"] ?></div>
+                                                
+                                                    <div class="feature_item_inner">
+                                                        <img style="width: 100%; height: 200px" src="<?php echo $duongdan.$row["link"] ?>" alt="">
+                                                        <div class="icon_hover">
+                                                            <i class="fa fa-search"></i>
+                                                            <i class="fa fa-shopping-cart"></i>
+                                                        </div>
+                                                        <div class="title_text">
+                                                            <div class="feature_left"><a href="#"><span><?php echo $row["product_name"] ?></span></a></div>
+                                                            <div class="restaurant_feature_dots"></div>
+                                                            <div class="feature_right"><?php echo $row["prices"] ?></div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
                                     <?php
                                     }
                                 }
                             }
                         ?>
+                        
                     </div>
                 </div>
             </div>

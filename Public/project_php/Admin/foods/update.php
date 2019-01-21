@@ -3,8 +3,8 @@
 require_once "config.php";
  
 // Define variables and initialize with empty values
-$product_name = $prices = $description = $category_id = $status = "";
-$product_name_err = $prices_err = $description_err = $category_id_err = $status_err = "";
+$product_name = $prices = $description = $category_id = $status = $code = "";
+$product_name_err = $prices_err = $description_err = $category_id_err = $status_err = $code_err = "";
  
 // Processing form data when form is submitted
 if(isset($_POST["id"]) && !empty($_POST["id"])){
@@ -54,16 +54,35 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
     } else{
         $status = $input_food_status;
     }
+
+    $input_food_code = trim($_POST["code"]);
+    if(empty($input_food_code)){
+        $code_err = "Please enter an prices.";     
+    } else{
+        $sql = "SELECT code from products";
+        $result = mysqli_query($link,$sql);
+        if($result)
+        {
+            while($row = mysqli_fetch_assoc($result))
+            {
+                if ($row['code'] == $input_food_code ) {
+                    $code_err = "Code da ton tai, nhap lai code moi";
+                }else{
+                    $code = $input_food_code;
+                }
+            }
+        }                          
+    }
     
     // Check input errors before inserting in database
     if(empty($product_name_err) && empty($prices_err) && empty($description_err)
-     && empty($category_id_err) && empty($status_err)){
+     && empty($category_id_err) && empty($status_err) && empty($code_err)){
         // Prepare an update statement
-        $sql = "UPDATE products SET product_name=?, prices=?, description=?, category_id=?, status=? WHERE id=?";
+        $sql = "UPDATE products SET product_name=?, prices=?, description=?, category_id=?, status=?, code=? WHERE id=?";
          
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "sisisi", $param_product_name, $param_prices, $param_description, $param_cate_id, $param_status, $param_id);
+            mysqli_stmt_bind_param($stmt, "sisiisi", $param_product_name, $param_prices, $param_description, $param_cate_id, $param_status, $param_code, $param_id);
             
             // Set parameters
             $param_product_name = $product_name;
@@ -71,6 +90,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
             $param_description = $description;
             $param_cate_id = $category_id;
             $param_status = $status;
+            $param_code = $code;
             $param_id = $id;
             
             // Attempt to execute the prepared statement
@@ -118,6 +138,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                     $description = $row["description"];
                     $category_id = $row["category_id"];
                     $status = $row["status"];
+                    $code = $row["code"];
                 } else{
                     // URL doesn't contain valid id. Redirect to error page
                     header("location: error.php");
@@ -219,6 +240,11 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                             <label>Status</label>
                             <input type="text" name="status" class="form-control" value="<?php echo $status; ?>">
                             <span class="help-block"><?php echo $status_err;?></span>
+                        </div>
+                        <div class="form-group <?php echo (!empty($status_err)) ? 'has-error' : ''; ?>">
+                            <label>Code</label>
+                            <input type="text" name="code" class="form-control" value="<?php echo $code; ?>">
+                            <span class="help-block"><?php echo $code_err;?></span>
                         </div>
                         <input type="hidden" name="id" value="<?php echo $id; ?>"/>
                         <input type="submit" class="btn btn-primary" value="Submit">
