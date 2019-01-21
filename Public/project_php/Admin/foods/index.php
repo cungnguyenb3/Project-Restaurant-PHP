@@ -164,12 +164,12 @@
                                             while ($rowCa = mysqli_fetch_assoc($resCategory))
                                             {
                                                 ?>
-                                                <option value= "<?php echo $rowCa['id']; ?>"><?php echo $rowCa['id']; ?></option>
+                                                <option value= "<?php echo $rowCa['id']; ?>"><?php echo $rowCa['cate_name']; ?></option>
                                                <?php
                                            }
                                        "</td>";
                                         echo "<td>" . $row['status'] . "</td>";
-                                        echo "<td>" . $row['code'] . "</td>";
+                                        echo "<td>" . $row['codes'] . "</td>";
                                         echo "<td>";
                                         echo "<a href='read.php?id=". $row['id'] ."' title='View Record' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'>&nbsp;</span></a>";
                                         echo "<a href='update.php?id=". $row['id'] ."' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'>&nbsp;</span></a>";

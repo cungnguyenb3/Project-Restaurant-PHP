@@ -1,3 +1,4 @@
+<?php include("shopping_cart.php"); ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -12,6 +13,9 @@
         <link href="vendors/material-icon/css/materialdesignicons.min.css" rel="stylesheet">
         <link href="css/font-awesome.min.css" rel="stylesheet">
         <link href="vendors/linears-icon/style.css" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <!-- Bootstrap -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
         
@@ -46,14 +50,12 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="header_contact_details">
-                            <a href="table.html"><i class="fa fa-phone"></i>+1 (168) 314 5016</a>
-                            <a href="event.html"><i class="fa fa-envelope-o"></i>+1 (168) 314 5016</a>
+                            
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="event_btn_inner">
-                            <a class="event_btn" href="#"><i class="fa fa-table" aria-hidden="true"></i>Book a Table</a>
-                            <a class="event_btn" href="#"><i class="fa fa-calendar" aria-hidden="true"></i>Book an Event</a>
+                            
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -89,7 +91,7 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="index.html">Home</a></li>
+                            <li><a href="index.php">Home</a></li>
                             <li class="dropdown submenu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About US <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                                 <ul class="dropdown-menu">
@@ -100,8 +102,8 @@
                             <li class="dropdown submenu active">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="menu-grid.html">Menu Grid</a></li>
-                                    <li><a href="menu-list.html">Menu List</a></li>
+                                    <li><a href="menu-grid.php">Menu Grid</a></li>
+                                    <li><a href="menu-list.php">Menu List</a></li>
                                 </ul>
                             </li>
                             <li><a href="gallery.html">Gallery</a></li>
@@ -121,7 +123,8 @@
                                 </ul>
                             </li>
                             <li><a href="contact.html">Contact US</a></li>
-                            <li><a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
+                            <?php $cart_count = count(array_keys($_SESSION["shopping_cart"])); ?>
+                            <li><a href="cart.php"><i class="fa fa-shopping-cart" aria-hidden="true"><span> (<?php echo $cart_count; ?>)</span></i></a></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->
@@ -135,7 +138,7 @@
                 <div class="banner_content">
                     <h4>Menu Grid</h4>
                     <a href="#">Home</a>
-                    <a class="active" href="menu-list.html">Menu</a>
+                    <a class="active" href="menu-list.php">Menu</a>
                 </div>
             </div>
         </section>
@@ -148,19 +151,10 @@
                     <ul>
                         <li class="active" data-filter="*"><a href="">All</a></li>
                         <?php 
-                            require('numberToWord.php');
-                            require('config.php');
                             error_reporting(1);
-
-                            $a = "SELECT count(id) FROM categories";
-
-                            $c=mysqli_query("SELECT count(*) as total from categories");
-                            $data=mysqli_fetch_assoc($c);
-                            echo $data['total'];
-
-                            $b = $a;
-                            echo $c;
-                            for ($i=1; $i <= 99; $i++) { 
+                            $link = mysqli_connect("localhost", "root", "", "restaurant");
+                            mysqli_set_charset($link,'utf8');
+                            for ($i=1; $i < 99; $i++) { 
                                 $sql = "SELECT * FROM categories WHERE id IN (8,12,16,19) and id = ".$i;
                             // echo $sql;
                             $result = $link->query($sql);
@@ -171,10 +165,12 @@
                                 <?php
                                 }
                             }
-                            } 
+                            }
+                                
                         ?>
                     </ul>
                 </div>
+
 
                 <div class="p_recype_item_main">
                     <div class="row p_recype_item_active">
@@ -190,35 +186,39 @@
                                 if ($result->num_rows > 0) {
                                     // output data of each row
                                     while($row = $result->fetch_assoc()) {?>
-                                            <div class="col-md-4 <?php echo convert_number_to_words($i) ?>" style="margin-top: 30px">
-                                            <div class="feature_item">
-                                                
+                                        <div class="col-md-4 <?php echo convert_number_to_words($i) ?>" style="margin-top: 30px">
+
+
+                                            <form method="post" action="menu-grid.php?action=add&codes=<?php echo $row["codes"]; ?>">
+                                                <div class="feature_item">
                                                     <div class="feature_item_inner">
-                                                        <img style="width: 100%; height: 200px" src="<?php echo $duongdan.$row["link"] ?>" alt="">
-                                                        <div class="icon_hover">
-                                                            <i class="fa fa-search"></i>
-                                                            <i class="fa fa-shopping-cart"></i>
-                                                        </div>
+                                                        <img style="height: 250px; width: 100%;" src="<?php echo $duongdan.$row["link"] ?>" alt="">
                                                         <div class="title_text">
-                                                            <div class="feature_left"><a href="#"><span><?php echo $row["product_name"] ?></span></a></div>
+                                                            <div class="feature_left" name="hidden_name"><a href="#"><span><?php echo $row["product_name"] ?></span></a></div>
                                                             <div class="restaurant_feature_dots"></div>
-                                                            <div class="feature_right"><?php echo $row["prices"] ?></div>
+                                                            <div class="feature_right" name="hidden_price"><?php echo $row["prices"] ?></div>
+                                                        </div>
+                                                        <div class="icon_hover">
+                                                            <input type="hidden" name="quantity" value="1" />
+                                                            <input type="hidden" name="hidden_name" value="<?php echo $row["product_name"]; ?>" />
+                                                            <input type="hidden" name="hidden_price" value="<?php echo $row["prices"]; ?>" />
+                                                            <input type="submit" name="add_to_cart" style="margin-top:5px;" class="btn btn-success" value="Add to Cart" />
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </form>
+                                        </div>
                                     <?php
                                     }
                                 }
                             }
                         ?>
-                        
                     </div>
                 </div>
             </div>
         </section>
         <!--================End Our feature Area =================-->
-        
+
         <!--================End Recent Blog Area =================-->
         <footer class="footer_area">
             <div class="footer_widget_area">
@@ -288,9 +288,9 @@
                 <div class="container">
                     <div class="pull-left">
                         <h5><p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-</p></h5>
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </p></h5>
                     </div>
                     <div class="pull-right">
                         <ul class="nav navbar-nav navbar-right">
@@ -307,8 +307,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
             </div>
         </footer>
         <!--================End Recent Blog Area =================-->
-        
-        
         
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="js/jquery-2.1.4.min.js"></script>

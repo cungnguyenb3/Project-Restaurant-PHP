@@ -1,4 +1,60 @@
-<?php include("shopping_cart.php"); ?>
+<?php 
+error_reporting(1);
+session_start();
+require("numberToWord.php");
+require("config.php");
+
+if(isset($_POST["add_to_cart"]))
+{
+    if(isset($_SESSION["shopping_cart"]))
+    {
+        $item_array_id = array_column($_SESSION["shopping_cart"], "item_id");
+        if(!in_array($_GET["id"], $item_array_id))
+        {
+            $count = count($_SESSION["shopping_cart"]);
+            $item_array = array(
+                'item_id'           =>  $_GET["id"],
+                'item_name'         =>  $_POST["hidden_name"],
+                'item_price'        =>  $_POST["hidden_price"],
+                'item_quantity'     =>  $_POST["quantity"]
+            );
+            $_SESSION["shopping_cart"][$count] = $item_array;
+        }
+        else
+        {
+            echo '<script>alert("Item Already Added")</script>';
+        }
+    }
+    else
+    {
+        $item_array = array(
+            'item_id'           =>  $_GET["id"],
+            'item_name'         =>  $_POST["hidden_name"],
+            'item_price'        =>  $_POST["hidden_price"],
+            'item_quantity'     =>  $_POST["quantity"]
+        );
+        $_SESSION["shopping_cart"][0] = $item_array;
+    }
+}
+
+if(isset($_GET["action"]))
+{
+    if($_GET["action"] == "delete")
+    {
+        foreach($_SESSION["shopping_cart"] as $keys => $values)
+        {
+            if($values["item_id"] == $_GET["id"])
+            {
+                unset($_SESSION["shopping_cart"][$keys]);
+                echo '<script>alert("Item Removed")</script>';
+                echo '<script>window.location="menu-list.php"</script>';
+            }
+        }
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -47,31 +103,17 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="header_contact_details">
-                            <a href="#"><i class="fa fa-phone"></i>+1 (168) 314 5016</a>
-                            <a href="#"><i class="fa fa-envelope-o"></i>+1 (168) 314 5016</a>
+                            
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="event_btn_inner">
-                            <a class="event_btn" href="table.html"><i class="fa fa-table" aria-hidden="true"></i>Book a Table</a>
-                            <a class="event_btn" href="event.html"><i class="fa fa-calendar" aria-hidden="true"></i>Book an Event</a>
+                            
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="header_social">
-                            <ul>
-                            <?php
-                                session_start();
-                                if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
-                                    echo '<a href="#">'.$_SESSION["username"].'</a>';
-                                    echo '<p><a href="regform/logout.php" class="btn btn-primary">Log out</a></p>';
-                                } else{
-                                    echo '<a href="regform/login.php"><button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#login"><i class="fa fa-address-book" aria-hidden="true"></i> Login</button></a>'.'<a href="regform/register.php"><button type="button" class="btn btn-danger btn-lg"><i class="fa fa-address-card" aria-hidden="true"></i> Register</button></a>';
-                                }                    
-                             ?>
-                                <!-- <a href="regform/login.php"><button type="button" class="btn btn-danger btn-lg" data-toggle="modal" data-target="#login"><i class="fa fa-address-book" aria-hidden="true"></i> Login</button></a>
-                               <a href="regform/register.php"><button type="button" class="btn btn-danger btn-lg"><i class="fa fa-address-card" aria-hidden="true"></i> Register</button></a>   -->                          
-                            </ul>
+                            
                         </div>
                     </div>
                 </div>
@@ -97,7 +139,7 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="index.php">Home</a></li>
+                            <li><a href="index.html">Home</a></li>
                             <li class="dropdown submenu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About US <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                                 <ul class="dropdown-menu">
@@ -108,7 +150,7 @@
                             <li class="dropdown submenu active">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Menu <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="menu-grid.php">Menu Grid</a></li>
+                                    <li><a href="menu-grid.html">Menu Grid</a></li>
                                     <li><a href="menu-list.php">Menu List</a></li>
                                 </ul>
                             </li>
@@ -129,8 +171,7 @@
                                 </ul>
                             </li>
                             <li><a href="contact.html">Contact US</a></li>
-                            <?php $cart_count = count(array_keys($_SESSION["shopping_cart"])); ?>
-                            <li><a href="cart_list.php"><i class="fa fa-shopping-cart" aria-hidden="true"><span> (<?php echo $cart_count; ?>)</span></i></a></li>
+                            <li><a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->
@@ -153,13 +194,21 @@
         <!--================End Our feature Area =================-->
         <section class="most_popular_item_area menu_list_page">
             <div class="container">
-                <div class="popular_filter">                            
+                <div class="popular_filter">
                     <ul>
                         <li class="active" data-filter="*"><a href="">All</a></li>
                         <?php 
                             error_reporting(1);
                             $link = mysqli_connect("localhost", "root", "", "restaurant");
                             mysqli_set_charset($link,'utf8');
+                            $a = "SELECT count(id) FROM categories";
+
+                            $c=mysqli_query("SELECT count(*) as total from categories");
+                            $data=mysqli_fetch_assoc($c);
+                            echo $data['total'];
+
+                            $b = $a;
+                            echo $c;
                             for ($i=1; $i < 99; $i++) { 
                                 $sql = "SELECT * FROM categories WHERE parentID = 1 and id = ".$i;
                             // echo $sql;
@@ -191,34 +240,36 @@
                                     // output data of each row
                                     while($row = $result->fetch_assoc()) {?>
                                         <div class="col-md-6 <?php echo convert_number_to_words($i) ?>">
-                                            <form method="post" action="menu-list.php?action=add&codes=<?php echo $row["codes"]; ?>">
+                                            <form action="demo-cart.php?action=add&id=<?php echo $row["id"]; ?>">
                                                 <div class="media">
-                                                    <div class="">
-                                                        <div class="media-left">
-                                                            <img style="height: 180px; width: 180px;" src="<?php echo $duongdan.$row["link"] ?>" alt="">
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <a href="#"><h3 name="hidden_name"><?php echo $row["product_name"] ?></h3></a>
-                                                            <h4 name="hidden_price"><?php echo $row["prices"] ?></h4>
-                                                            <p><?php echo $row["description"] ?></p>
-                                                            <p><?php echo $row["cate_name"] ?></p>
+                                                <div class="">
+                                                    <div class="media-left">
+                                                        <img style="height: 180px; width: 180px;" src="<?php echo $duongdan.$row["link"] ?>" class="img-responsive" alt="">
+                                                    </div>
+                                                    <div class="media-body">
 
-                                                            <input type="hidden" name="quantity" value="1" />
-                                                            <input type="hidden" name="hidden_name" value="<?php echo $row["product_name"]; ?>" />
-                                                            <input type="hidden" name="hidden_price" value="<?php echo $row["prices"]; ?>" />
-                                                            <input type="submit" name="add_to_cart" style="margin-top:5px;" class="btn btn-success" value="Add to Cart" />
+                                                        <a class="text-info" href="#"><h3><?php echo $row["product_name"] ?></h3></a>
+                                                        <h4 class="text-danger"><?php echo number_format($row["prices"]) ?></h4>
+                                                        <p><?php echo $row["description"] ?></p>
+                                                        <p><?php echo $row["cate_name"] ?></p>
 
-                                                            <!-- <a class="read_mor_btn" href="#">Add To Cart</a> -->
-                                                            <ul>
-                                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                                <li><a href="#"><i class="fa fa-star-half-o"></i></a></li>
-                                                            </ul>
-                                                        </div>
+                                                        <input type="hidden" name="hidden_name" value="<?php echo $row["product_name"]; ?>" />
+
+                                                        <input type="hidden" name="hidden_price" value="<?php echo $row["prices"]; ?>" />
+
+                                                        <a type="submit" name="add_to_cart" class="read_mor_btn" href="#">Add To Cart</a>
+
+
+                                                        <ul>
+                                                            <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                            <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                            <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                            <li><a href="#"><i class="fa fa-star"></i></a></li>
+                                                            <li><a href="#"><i class="fa fa-star-half-o"></i></a></li>
+                                                        </ul>
                                                     </div>
                                                 </div>
+                                            </div>
                                             </form>
                                             
                                         </div>
@@ -229,6 +280,53 @@
                         ?>
                     </div>
                 </div>
+                <?php
+                    if(!empty($_SESSION["shopping_cart"])) {
+                        $cart_count = count(array_keys($_SESSION["shopping_cart"])); ?>
+                        <div class="cart_div" style="text-align: right;">
+                            <a href="cart.php"><img src="cart-icon.png" /> Cart<span> (<?php echo $cart_count; ?>)</span></a>
+                        </div>
+                    <?php
+                    }
+                    $query = "SELECT * FROM products, images WHERE products.id = images.product_id";
+                    $result = mysqli_query($connect, $query);
+                    if(mysqli_num_rows($result) > 0)
+                    {
+                        while($row = mysqli_fetch_array($result))
+                        {
+                    ?>
+                    <div class="col-md-4">
+                        <form method="post" action="demo-cart.php?action=add&id=<?php echo $row["id"]; ?>">
+                            <div style="border:1px solid #333; background-color:#f1f1f1; border-radius:5px; padding:16px;" align="center">
+                                <img src="images/<?php echo $row["link"]; ?>" style="height: 200px; width: 280px;" class="img-responsive" /><br />
+
+                                <h4 class="text-info"><?php echo $row["product_name"]; ?></h4>
+
+                                <h4 class="text-danger">$ <?php echo number_format($row["prices"]); ?></h4>
+
+                                <!-- <input type="text" name="quantity" value="1" class="form-control" /> -->
+
+                                <select name='quantity' class="form-control" style="width: 60px;">
+                                    <option <?php if($values["item_quantity"]==1) echo "selected";?> value="1">1</option>
+                                    <option <?php if($values["item_quantity"]==2) echo "selected";?> value="2">2</option>
+                                    <option <?php if($values["item_quantity"]==3) echo "selected";?> value="3">3</option>
+                                    <option <?php if($values["item_quantity"]==4) echo "selected";?> value="4">4</option>
+                                    <option <?php if($values["item_quantity"]==5) echo "selected";?> value="5">5</option>
+                                </select>
+
+                                <input type="hidden" name="hidden_name" value="<?php echo $row["product_name"]; ?>" />
+
+                                <input type="hidden" name="hidden_price" value="<?php echo $row["prices"]; ?>" />
+
+                                <input type="submit" name="add_to_cart" style="margin-top:5px;" class="btn btn-success" value="Add to Cart" />
+
+                            </div>
+                        </form>
+                    </div>
+                    <?php
+                        }
+                    }
+                    ?>
             </div>
         </section>
         <!--================End Our feature Area =================-->
@@ -302,9 +400,9 @@
                 <div class="container">
                     <div class="pull-left">
                         <h5><p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        </p></h5>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+</p></h5>
                     </div>
                     <div class="pull-right">
                         <ul class="nav navbar-nav navbar-right">
