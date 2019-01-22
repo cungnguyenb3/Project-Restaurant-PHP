@@ -1,3 +1,6 @@
+<style type="text/css">
+	margin-top: 10em;
+</style>
 <?php 
 error_reporting(1);
 session_start();
@@ -46,7 +49,7 @@ if(isset($_GET["action"]))
 			{
 				unset($_SESSION["shopping_cart"][$keys]);
 				echo '<script>alert("Item Removed")</script>';
-				echo '<script>window.location="menu-grid.php"</script>';
+				echo '<script>window.location="cart.php"</script>';
 			}
 		}
 	}
@@ -61,8 +64,10 @@ if(isset($_GET["action"]))
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<?php include('head1.php');  ?>
 	</head>
 	<body>
+
 		<br />
 		<div class="container">
 			<div style="clear:both"></div>
@@ -72,7 +77,9 @@ if(isset($_GET["action"]))
 				<table class="table table-bordered">
 					<tr style="text-align: center;">
 						<th width="20%">Item Name</th>
-						<th width="1%">Quantity</th>
+						<th width="1%">Quantity
+						
+						</th>
 						<th width="5%">Price</th>
 						<th width="5%">Total</th>
 						<th width="5%">Action</th>
@@ -86,10 +93,26 @@ if(isset($_GET["action"]))
 					?>
 					<tr>
 						<td><?php echo $values["item_name"]; ?></td>
-						<td><?php echo $values["item_quantity"]; ?></td>
+						<td><?php echo $values["item_quantity"]; ?>
+							<form method='post' action=''>
+			                    <input type='hidden' name='code' value="<?php echo $values["codes"]; ?>" />
+			                    <input type='hidden' name='action' value="change" />
+			                    <select name='quantity' class='quantity' onChange="this.form.submit()">
+			                        <option onclick="change(1,<?php ?>)"> <?php if($values["quantity"]==1) echo "selected";?>
+			                        value="1">1</option>
+			                        <option <?php if($values["quantity"]==2) echo "selected";?>
+			                        value="2">2</option>
+			                        <option <?php if($values["quantity"]==3) echo "selected";?>
+			                        value="3">3</option>
+			                        <option <?php if($values["quantity"]==4) echo "selected";?>
+			                        value="4">4</option>
+			                        <option <?php if($values["quantity"]==5) echo "selected";?>
+			                        value="5">5</option>
+			                    </select>
+			                </form>
 						<td>$ <?php echo number_format($values["item_price"]); ?></td>
 						<td>$ <?php echo number_format($values["item_quantity"] * $values["item_price"]);?></td>
-						<td><a href="demo-cart.php?action=delete&id=<?php echo $values["item_id"]; ?>"><span class="text-danger">Remove</span></a></td>
+						<td><a href="cart.php?action=delete&id=<?php echo $values["item_id"]; ?>"><span class="text-danger">Remove</span></a></td>
 					</tr>
 					<?php
 							$total = $total + ($values["item_quantity"] * $values["item_price"]);
@@ -104,7 +127,10 @@ if(isset($_GET["action"]))
 					}
 					?>	
 				</table>
-				<div style="text-align: right;"><a href="menu-grid.php">Come back</a></div>
+				<div style="text-align: right;">
+					<a href="menu-grid.php">Come back</a>
+					<a href="buy.php">Buy</a>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -32,7 +32,7 @@
                     echo "<h4>"."Đây là admin có username là ".$_SESSION['username']."</h4>";
                 }
             ?>
-            <p><a href="../logout.php" class="btn btn-primary">Log out</a></p>
+            <p><a href="logout.php" class="btn btn-primary">Log out</a></p>
         </div>
     </div>
     
