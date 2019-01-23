@@ -30,18 +30,25 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
         $code = $input_cate_code;
     }
 
+    //validate pararent ID
+    if(empty($_POST["parentID"])){
+        $parentID = NULL;
+    }else{
+        $parentID = $input_cate_name;
+    }
     // Check input errors before inserting in database
     if(empty($cate_cate_err) && empty($code_err)){
         // Prepare an update statement
-        $sql = "UPDATE categories SET cate_name=?, code=? WHERE id=?";
+        $sql = "UPDATE categories SET cate_name=?, code=?, parentID=? WHERE id=?";
          
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ssi", $param_cate_name, $param_code, $param_id);
+            mysqli_stmt_bind_param($stmt, "ssii", $param_cate_name, $param_code,$param_parent_ID, $param_id);
             
             // Set parameters
             $param_cate_name = $cate_name;
             $param_code = $code;
+            $param_parent_ID = $parentID;
             $param_id = $id;
             
             // Attempt to execute the prepared statement
@@ -84,6 +91,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
                     
                     // Retrieve individual field value
+                    $cate_id = $row['id'];
                     $cate_name = $row["cate_name"];
                     $code = $row["code"];
                 } else{
@@ -101,7 +109,6 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
         mysqli_stmt_close($stmt);
         
         // Close connection
-        mysqli_close($link);
     }  else{
         // URL doesn't contain id parameter. Redirect to error page
         header("location: error.php");
@@ -143,6 +150,43 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                             <input name="code" class="form-control" value="<?php echo $code; ?>">
                             <span class="help-block"><?php echo $code_err;?></span>
                         </div>
+                        <select class="form-control" name="parentID">
+                                <?php
+                                    $isNull = '';
+                                    require('config.php');
+                                    $sqlCa = "SELECT c.parentID, c.cate_name, p.cate_name FROM categories c JOIN categories p
+                                            ON c.parentID = p.id where c.id = ".$row['id'];
+                                    $res_cate_id = mysqli_query($link,$sqlCa);
+                                    while($rowCa = mysqli_fetch_assoc($res_cate_id))
+                                    {
+                                        if($rowCa['parentID'] == ''){
+                                ?>
+                                            <option ><?php echo 'null'; ?></option> 
+                                <?php 
+                                        }else{
+                                ?>
+                                            <option value="<?php echo $rowCa['id']; ?>"><?php echo $rowCa['cate_name']; ?></option>  
+                                <?php
+                                        }
+                                    }
+                                
+                                    $sqlCate = "SELECT p.id, p.cate_name FROM categories c JOIN categories p
+                                            ON c.parentID = p.id GROUP BY p.id";
+                                    $resCate = mysqli_query($link,$sqlCate);
+                                   
+                                    while($rowCate = mysqli_fetch_assoc($resCate))
+                                    {                                    
+                                ?>
+                                        <option value="<?php echo $rowCate['id']; ?>"><?php echo $rowCate['cate_name']; ?></option>  
+                                <?php  
+                                    }
+                                    ?>
+                                        <option value="<?php $isNull ?>"><?php echo 'null'; ?></option> 
+                                    <?php 
+                                    mysqli_close($link);
+                               ?>
+                            </select>
+                            <br>
                         <input type="hidden" name="id" value="<?php echo $id; ?>"/>
                         <input type="submit" class="btn btn-primary" value="Submit">
                         <a href="index.php" class="btn btn-default">Cancel</a>

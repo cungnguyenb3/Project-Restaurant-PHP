@@ -1,11 +1,11 @@
 <?php
 function convert_number_to_words($number) {
  
-$hyphen      = ' ';
-$conjunction = '  ';
-$separator   = ' ';
-$negative    = 'âm ';
-$decimal     = ' phẩy ';
+$hyphen      = '';
+$conjunction = '';
+$separator   = '';
+$negative    = 'âm';
+$decimal     = 'phẩy';
 $dictionary  = array(
 0                   => 'Không',
 1                   => 'Một',
@@ -18,30 +18,30 @@ $dictionary  = array(
 8                   => 'Tám',
 9                   => 'Chín',
 10                  => 'Mười',
-11                  => 'Mười một',
-12                  => 'Mười hai',
-13                  => 'Mười ba',
-14                  => 'Mười bốn',
-15                  => 'Mười năm',
-16                  => 'Mười sáu',
-17                  => 'Mười bảy',
-18                  => 'Mười tám',
-19                  => 'Mười chín',
-20                  => 'Hai mươi',
-30                  => 'Ba mươi',
-40                  => 'Bốn mươi',
-50                  => 'Năm mươi',
-60                  => 'Sáu mươi',
-70                  => 'Bảy mươi',
-80                  => 'Tám mươi',
-90                  => 'Chín mươi',
+11                  => 'Mườimột',
+12                  => 'Mườihai',
+13                  => 'Mườiba',
+14                  => 'Mườibốn',
+15                  => 'Mườinăm',
+16                  => 'Mườisáu',
+17                  => 'Mườibảy',
+18                  => 'Mườitám',
+19                  => 'Mườichín',
+20                  => 'Haimươi',
+30                  => 'Bamươi',
+40                  => 'Bốnmươi',
+50                  => 'Nămmươi',
+60                  => 'Sáumươi',
+70                  => 'Bảymươi',
+80                  => 'Támmươi',
+90                  => 'Chínmươi',
 100                 => 'trăm',
 1000                => 'ngàn',
 1000000             => 'triệu',
 1000000000          => 'tỷ',
-1000000000000       => 'nghìn tỷ',
-1000000000000000    => 'ngàn triệu triệu',
-1000000000000000000 => 'tỷ tỷ'
+1000000000000       => 'nghìntỷ',
+1000000000000000    => 'ngàntriệutriệu',
+1000000000000000000 => 'tỷtỷ'
 );
  
 if (!is_numeric($number)) {
@@ -82,7 +82,7 @@ break;
 case $number < 1000:
 $hundreds  = $number / 100;
 $remainder = $number % 100;
-$string = $dictionary[$hundreds] . ' ' . $dictionary[100];
+$string = $dictionary[$hundreds] . '' . $dictionary[100];
 if ($remainder) {
 $string .= $conjunction . convert_number_to_words($remainder);
 }
@@ -91,7 +91,7 @@ default:
 $baseUnit = pow(1000, floor(log($number, 1000)));
 $numBaseUnits = (int) ($number / $baseUnit);
 $remainder = $number % $baseUnit;
-$string = convert_number_to_words($numBaseUnits) . ' ' . $dictionary[$baseUnit];
+$string = convert_number_to_words($numBaseUnits) . '' . $dictionary[$baseUnit];
 if ($remainder) {
 $string .= $remainder < 100 ? $conjunction : $separator;
 $string .= convert_number_to_words($remainder);
@@ -105,11 +105,9 @@ $words = array();
 foreach (str_split((string) $fraction) as $number) {
 $words[] = $dictionary[$number];
 }
-$string .= implode(' ', $words);
+$string .= implode('', $words);
 }
  
 return $string;
 }
-
-echo convert_number_to_words(99);
 ?>

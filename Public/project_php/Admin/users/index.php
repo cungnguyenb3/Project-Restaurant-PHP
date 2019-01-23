@@ -97,7 +97,7 @@
                             </form>
                         </div>
                     </div>
-                    <div class="user-area dropdown float-right" style="padding-right: 5em;">
+                    <div class="user-area dropdown float-right">
                         <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img class="user-avatar rounded-circle" src="images/boss-512.png" alt="User Avatar">
                         </a>
@@ -105,8 +105,13 @@
                             <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
                             <a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span class="count">13</span></a>
                             <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
-                            <a class="nav-link" href="#"><i class="fa fa-power -off"></i>Logout</a>
+                            <a class="nav-link" href="../logout.php"><i class="fa fa-power -off"></i>Logout</a>
                         </div>
+                    </div>
+                    <div >
+                        <?php 
+                            echo $_SESSION["username"];
+                         ?>
                     </div>
 
                 </div>

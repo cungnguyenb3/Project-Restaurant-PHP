@@ -77,7 +77,7 @@ if(isset($_GET["action"]))
 					</div>
 				<?php
 				}
-				$query = "SELECT * FROM foods, image WHERE foods.id = image.food_id";
+				$query = "SELECT * FROM products, images WHERE products.id = images.product_id";
 				$result = mysqli_query($connect, $query);
 				if(mysqli_num_rows($result) > 0)
 				{
@@ -89,7 +89,7 @@ if(isset($_GET["action"]))
 					<div style="border:1px solid #333; background-color:#f1f1f1; border-radius:5px; padding:16px;" align="center">
 						<img src="images/<?php echo $row["link"]; ?>" style="height: 200px; width: 280px;" class="img-responsive" /><br />
 
-						<h4 class="text-info"><?php echo $row["food_name"]; ?></h4>
+						<h4 class="text-info"><?php echo $row["product_name"]; ?></h4>
 
 						<h4 class="text-danger">$ <?php echo number_format($row["prices"]); ?></h4>
 
@@ -103,7 +103,7 @@ if(isset($_GET["action"]))
 							<option <?php if($values["item_quantity"]==5) echo "selected";?> value="5">5</option>
 						</select>
 
-						<input type="hidden" name="hidden_name" value="<?php echo $row["food_name"]; ?>" />
+						<input type="hidden" name="hidden_name" value="<?php echo $row["product_name"]; ?>" />
 
 						<input type="hidden" name="hidden_price" value="<?php echo $row["prices"]; ?>" />
 

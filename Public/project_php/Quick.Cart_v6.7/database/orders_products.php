@@ -7,3 +7,4 @@ a:6:{s:8:"iElement";s:1:"5";s:6:"iOrder";s:1:"2";s:8:"iProduct";s:1:"2";s:9:"iQu
 a:6:{s:8:"iElement";i:6;s:6:"iOrder";i:3;s:8:"iProduct";i:1;s:9:"iQuantity";i:2;s:6:"fPrice";s:5:"79.00";s:5:"sName";s:6:"Argent";}
 a:6:{s:8:"iElement";i:7;s:6:"iOrder";i:3;s:8:"iProduct";i:12;s:9:"iQuantity";i:1;s:6:"fPrice";s:6:"459.00";s:5:"sName";s:15:"Camping - large";}
 a:6:{s:8:"iElement";i:8;s:6:"iOrder";i:4;s:8:"iProduct";i:12;s:9:"iQuantity";i:1;s:6:"fPrice";s:6:"459.00";s:5:"sName";s:15:"Camping - large";}
+a:6:{s:8:"iElement";i:9;s:6:"iOrder";i:5;s:8:"iProduct";i:1;s:9:"iQuantity";i:2;s:6:"fPrice";s:5:"79.00";s:5:"sName";s:6:"Argent";}

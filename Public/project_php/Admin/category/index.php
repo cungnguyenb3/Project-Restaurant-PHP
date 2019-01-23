@@ -49,7 +49,7 @@
                         <a href="../category/index.php"  aria-haspopup="true" aria-expanded="false"><i class="menu-icon fa fa-star"></i>Categories</a>
                     </li>
                     <li class="menu-item-has-children dropdown">
-                        <a href="../foods/index.php" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Foods</a>   
+                        <a href="../foods/index.php" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Products</a>   
                     </li>
                     <li class="menu-item-has-children dropdown">
                         <a href="../image-food/index.php" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th"></i>Images</a>
@@ -97,7 +97,7 @@
                             </form>
                         </div>
                     </div>
-                    <div class="user-area dropdown float-right" style="padding-right: 5em;">
+                    <div class="user-area dropdown float-right">
                         <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img class="user-avatar rounded-circle" src="images/boss-512.png" alt="User Avatar">
                         </a>
@@ -108,7 +108,7 @@
                             <a class="nav-link" href="../logout.php"><i class="fa fa-power -off"></i>Logout</a>
                         </div>
                     </div>
-                    <div>
+                    <div >
                         <?php 
                             echo $_SESSION["username"];
                          ?>
@@ -141,24 +141,37 @@
                                 echo "<thead>";
                                     echo "<tr>";
                                         echo "<th>ID</th>";
-                                        echo "<th>Category</th>";
-                                        echo "<th>Code</th>";
+                                        echo "<th>Tên sản phẩm</th>";
+                                        echo "<th>Mã sản phẩm</th>";
+                                        echo "<th>Danh mục cha</th>";
                                         echo "<th>Action</th>";
                                     echo "</tr>";
                                 echo "</thead>";
                                 echo "<tbody>";
                                 while($row = mysqli_fetch_array($result)){
-                                                        echo "<tr>";
-                                                            echo "<td>" . $row['id'] . "</td>";
-                                                            echo "<td>" . $row['cate_name'] . "</td>";
-                                                            echo "<td>" . $row['code'] . "</td>";
-                                                            echo "<td>";
-                                                                echo "<a href='read.php?id=". $row['id'] ."' title='View Record' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'>&nbsp;</span></a>";
-                                                                echo "<a href='update.php?id=". $row['id'] ."' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'>&nbsp;</span></a>";
-                                                                echo "<a href='delete.php?id=". $row['id'] ."' title='Delete Record' data-toggle='tooltip'><span class='glyphicon glyphicon-trash'>&nbsp;</span></a>";
-                                                            echo "</td>";
-                                                        echo "</tr>";
-                                                    }
+                                    echo "<tr>";
+                                        echo "<td>" . $row['id'] . "</td>";
+                                        echo "<td>" . $row['cate_name'] . "</td>";
+                                        echo "<td>" . $row['code'] . "</td>";
+                                        echo "<td>"; 
+                                            $idCategory = $row['id'];
+                                            $sqlCategory = "SELECT p.id, p.cate_name FROM categories c JOIN categories p
+                                                            ON c.parentID = p.id where c.id = '$idCategory';";
+                                            $resCategory = mysqli_query($link,$sqlCategory);
+                                            while ($rowCa = mysqli_fetch_assoc($resCategory))
+                                            {
+                                                ?>
+                                                <option value= "<?php echo $rowCa['parentID']; ?>"><?php echo $rowCa['cate_name']; ?></option>
+
+                                               <?php
+                                           }
+                                        echo "<td>";
+                                            echo "<a href='read.php?id=". $row['id'] ."' title='View Record' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'>&nbsp;</span></a>";
+                                            echo "<a href='update.php?id=". $row['id'] ."' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'>&nbsp;</span></a>";
+                                            echo "<a href='delete.php?id=". $row['id'] ."' title='Delete Record' data-toggle='tooltip'><span class='glyphicon glyphicon-trash'>&nbsp;</span></a>";
+                                        echo "</td>";
+                                    echo "</tr>";
+                                }
                                 echo "</tbody>";                            
                             echo "</table>";
                             // Free result set

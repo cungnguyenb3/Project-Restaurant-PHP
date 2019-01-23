@@ -1,9 +1,9 @@
 <?php
 // Include config file
 require_once "config.php";
- 
+error_reporting(1);
 // Define variables and initialize with empty values
-$cate_name = $code = "";
+$cate_name = $code = $paretID = "";
 $cate_name_err = $code_err = "";
  
 // Processing form data when form is submitted
@@ -26,19 +26,25 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     else{
         $code = $input_cate_code;
     }
-    
+    //validate pararent ID
+    if(empty($_POST["parentID"])){
+        $parentID = NULL;
+    }else{
+        $parentID = $input_cate_name;
+    }
     // Check input errors before inserting in database
     if(empty($cate_cate_err) && empty($code_err)){
         // Prepare an insert statement
-        $sql = "INSERT INTO categories (cate_name, code) VALUES (?, ?)";
+        $sql = "INSERT INTO categories (cate_name,code,parentID) VALUES (?, ?, ?)";
          
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "ss", $param_cate_name, $param_code);
+            mysqli_stmt_bind_param($stmt, "ssi", $param_cate_name, $param_code, $param_parent);
             
             // Set parameters
             $param_cate_name = $cate_name;
             $param_code = $code;
+            $param_parent = $parentID;
             
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
@@ -87,11 +93,33 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             <input type="text" name="cate_name" class="form-control" value="<?php echo $cate_name; ?>">
                             <span class="help-block"><?php echo $cate_name_err;?></span>
                         </div>
-
                         <div class="form-group <?php echo (!empty($code_err)) ? 'has-error' : ''; ?>">
                             <label>Code</label>
                             <input type="text"  name="code" class="form-control" value="<?php echo $code; ?>">
                             <span class="help-block"><?php echo $code_err;?></span>
+                        </div>
+                        <div class="form-group">
+                            <label> Danh mục sản phẩm </label>
+                            <select class="form-control" name="parentID">
+                            <?php
+                                $isNull = '';
+                                $sql = "SELECT p.id, p.cate_name FROM categories c JOIN categories p
+                                            ON c.parentID = p.id GROUP BY p.id";
+                                $result = mysqli_query($link,$sql);
+                                if($result)
+                                {
+                                    while($row = mysqli_fetch_assoc($result))
+                                    {
+                            ?>
+                                        <option value="<?php echo $row['id']; ?>"><?php echo $row['cate_name']; ?></option>   
+                            <?php
+                                    }
+                            ?>
+                                        <option value="<?php $isNull ?>"><?php echo 'null'; ?></option>
+                            <?php       
+                                }
+                           ?>
+                            </select>
                         </div>
                         <input type="submit" class="btn btn-primary" value="Submit">
                         <a href="index.php" class="btn btn-default">Cancel</a>

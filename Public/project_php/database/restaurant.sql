@@ -27,6 +27,7 @@ SET time_zone = "+00:00";
 --
 -- Cấu trúc bảng cho bảng `categories`
 --
+drop database restaurant;
 create database restaurant;
 use restaurant;
 CREATE TABLE `categories` (
@@ -66,19 +67,19 @@ CREATE TABLE `foods` (
 -- Đang đổ dữ liệu cho bảng `foods`
 --
 
-INSERT INTO `foods` (`id`, `food_name`, `prices`, `description`, `category_id`, `status`) VALUES
-(1, 'Gỏi bò cay', 59000, 'Đây là món khai vị', 1, '1'),
-(2, 'Ếch rang tiêu xanh', 59000, 'Đây là món ếch rang tiêu xanh', 2, '1'),
-(3, 'Khoai tây chiên', 29000, 'Đây là món khoai tây chiên', 3, '1'),
-(4, 'Bắp non xào hành', 29000, 'Đây là món bắp xào hành', 4, '1'),
-(5, 'Nghêu hấp', 39000, 'Đây là món nghêu hấp', 4, '1'),
-(6, 'Ba chỉ cuộn lá xanh', 39000, 'Đây là món ba chỉ cuốn lá xanh', 3, '2'),
-(7, 'Nghêu xào', 39000, 'Đây là món nghêu xào', 5, '2'),
-(8, 'Rau muống xào tỏi', 35000, 'Đây là món rau muống xào tỏi', 6, '1'),
-(9, 'Gỏi sứa', 39000, 'Đây là món gỏi sứa', 2, '1'),
-(10, 'Càng cua trộn hải sản', 49000, 'Đây là món càng cua trộn hải sản', 5, '1'),
-(11, 'Bạch tuộc nướng', 49000, 'Đây là món bạch tuộc nướng', 5, '3'),
-(12, 'Đậu bắp luộc', 19000, 'Đây là món đậu bắp luộc', 6, '1');
+INSERT INTO `products` (`product_name`, `prices`, `description`, `category_id`, `status`) VALUES
+('Gỏi bò cay', 59000, 'Đây là món khai vị', 7, '1'),
+('Ếch rang tiêu xanh', 59000, 'Đây là món ếch rang tiêu xanh', 2, '1'),
+('Khoai tây chiên', 29000, 'Đây là món khoai tây chiên', 3, '1'),
+('Bắp non xào hành', 29000, 'Đây là món bắp xào hành', 4, '1'),
+('Nghêu hấp', 39000, 'Đây là món nghêu hấp', 4, '1'),
+('Ba chỉ cuộn lá xanh', 39000, 'Đây là món ba chỉ cuốn lá xanh', 3, '2'),
+('Nghêu xào', 39000, 'Đây là món nghêu xào', 5, '2'),
+('Rau muống xào tỏi', 35000, 'Đây là món rau muống xào tỏi', 6, '1'),
+('Gỏi sứa', 39000, 'Đây là món gỏi sứa', 2, '1'),
+('Càng cua trộn hải sản', 49000, 'Đây là món càng cua trộn hải sản', 5, '1'),
+('Bạch tuộc nướng', 49000, 'Đây là món bạch tuộc nướng', 7, '3'),
+('Đậu bắp luộc', 19000, 'Đây là món đậu bắp luộc', 6, '1');
 
 -- --------------------------------------------------------
 
@@ -96,18 +97,18 @@ CREATE TABLE `image` (
 -- Đang đổ dữ liệu cho bảng `image`
 --
 
-INSERT INTO `image` (`id`, `food_id`, `link`) VALUES
+INSERT INTO `images`(`product_id`, `status`, `link`) VALUES
 (1, 1, 'goibocay.jpg'),
-(2, 2, 'echrangtieuxanh.jpg'),
-(3, 3, 'khoaitaychien.jpg'),
-(4, 4, 'bapnonxao.jpg'),
-(5, 5, 'bachicuonlaxanh.jpg'),
-(6, 6, 'ngheuhap.jpg'),
-(7, 7, 'ngheuxao.jpg'),
-(8, 8, 'daubapluoc.jpg'),
-(9, 9, 'goisua.jpg'),
-(10, 10, 'cangcuatronhaisan.jpg'),
-(11, 11, 'bachtuocnuong.jpg');
+(2, 1, 'echrangtieuxanh.jpg'),
+(3, 1, 'khoaitaychien.jpg'),
+(4, 2, 'bapnonxao.jpg'),
+(5, 3, 'bachicuonlaxanh.jpg'),
+(6, 1, 'ngheuhap.jpg'),
+(7, 2, 'ngheuxao.jpg'),
+(8, 3, 'daubapluoc.jpg'),
+(9, 1, 'goisua.jpg'),
+(10, 1, 'cangcuatronhaisan.jpg'),
+(11, 2, 'bachtuocnuong.jpg');
 
 -- --------------------------------------------------------
 

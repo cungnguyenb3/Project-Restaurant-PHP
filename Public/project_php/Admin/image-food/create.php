@@ -1,20 +1,24 @@
 <?php
 // Include config file
 require_once "config.php";
+error_reporting(1);
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
+    $caption = '';
     $msg = "";
     $target_file = "./image/".basename($_FILES["FileImage"]["name"]);
     $image = $_FILES["FileImage"]["name"];   
 
     // Check input errors before inserting in database
-        $sql = "INSERT INTO image (food_id, link) VALUES (?, ?)";
+        $sql = "INSERT INTO images (product_id,caption, status, link) VALUES (?, ?, ?, ?)";
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "is", $param_food_id, $param_image);
+            mysqli_stmt_bind_param($stmt, "isis", $param_product_id, $caption, $status, $param_image);
             
             // Set parameters
-            $param_food_id = $_POST['food_id'];
+            $param_product_id = $_POST['product_id'];
+            $caption = trim($_POST['caption']);
+            $status = trim($_POST['status']);
             $param_image = $image;
 
             if (move_uploaded_file($_FILES['FileImage']['tmp_name'],$target_file)) {
@@ -61,17 +65,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <p>Please fill this form and submit to add employee record to the database.</p>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label> Danh mục thức ăn </label>
-                            <select class="form-control" name="food_id">
+                            <label> Danh mục sản phẩm</label>
+                            <select class="form-control" name="product_id">
                             <?php
-                                $sql = "SELECT * FROM foods";
+                                $sql = "SELECT * FROM products";
                                 $result = mysqli_query($link,$sql);
                                 if($result)
                                 {
                                     while($row = mysqli_fetch_assoc($result))
                                     {
                             ?>
-                                        <option value="<?php echo $row['id']; ?>"><?php echo $row['food_name']; ?></option>   
+                                        <option value="<?php echo $row['id']; ?>"><?php echo $row['product_name']; ?></option>   
                             <?php
                                     }
                                 }
@@ -81,6 +85,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         <div class="form-group">
                             <label>Tải ảnh lên </label>
                             <input type="File" name="FileImage" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Caption</label>
+                            <input type="text" name="caption" class="form-control" value="<?php echo $caption; ?>">
+                        </div>
+                        <div class="form-group ">
+                            <label>Status</label>
+                            <input type="number" name="status" class="form-control" value="<?php echo $status; ?>">
                         </div>
                         <input type="submit" class="btn btn-primary" value="Submit">
                         <a href="index.php" class="btn btn-default">Cancel</a>

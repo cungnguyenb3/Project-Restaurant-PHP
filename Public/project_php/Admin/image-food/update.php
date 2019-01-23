@@ -3,7 +3,7 @@ require_once "config.php";
 // Include config file
 if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
 //     // Prepare a select statement
-    $sql = "SELECT image.id,foods.food_name,image.link FROM foods,image where foods.id = image.food_id and  image.id = ?";
+    $sql = "SELECT images.id,products.product_name,images.link FROM products,images where products.id = images.product_id and  images.id = ?";
     
     if($stmt = mysqli_prepare($link, $sql)){
         // Bind variables to the prepared statement as parameters
@@ -20,7 +20,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
 //                  Fetch result row as an associative array. Since the result set contains only one row, we don't need to use while loop 
                 $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
                 // Retrieve individual field value
-                $food_name = $row["food_name"];
+                $product_name = $row["product_name"];
                 $image = $row["link"];
             } else{
 //                 // URL doesn't contain valid id parameter. Redirect to error page
@@ -32,8 +32,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
             echo "Oops! Something went wrong. Please try again later.";
         }
     }
-    // Close statement
-    mysqli_stmt_close($stmt);
+
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $msg = "";
         $target_file = "./image/".basename($_FILES["FileImage"]["name"]);
@@ -41,7 +40,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
         // Get hidden input value
         $id = $_GET["id"];
         // Prepare an update statement
-        $sql = "UPDATE image SET link=? WHERE id=?";
+        $sql = "UPDATE images SET link=? WHERE id=?";
              
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
@@ -103,7 +102,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
                     <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post" enctype="multipart/form-data">          
                         <div class="form-group">
                             <label>Food Name</label>
-                            <p class="form-control-static"><?php echo $food_name; ?></p>
+                            <p class="form-control-static"><?php echo $product_name; ?></p>
                         </div>
                         <div class="form-group">
                         <label>Old image</label><br>

@@ -3,12 +3,11 @@
 require_once "config.php";
  
 // Define variables and initialize with empty values
-$food_name = $prices = $description = $category_id = $status = "";
-$food_name_err = $prices_err = $description_err = $category_id_err = $status_err = "";
+$food_name = $prices = $description = $category_id = $status = $codes = "";
+$food_name_err = $prices_err = $description_err = $category_id_err = $status_err = $codes_err = "";
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-    // Validate name
     // Validate food name
     $input_food_name = trim($_POST["food_name"]);
     if(empty($input_food_name)){
@@ -38,7 +37,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate category id
     $input_food_category_id = trim($_POST["category_id"]);
     if(empty($input_food_prices)){
-        $category_id_err = "Please enter the prices amount.";     
+        $category_id_err = "Please enter category.";     
     } elseif(!ctype_digit($input_food_category_id)){
         $category_id_err = "Please enter a positive integer value.";
     } else{
@@ -54,16 +53,35 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
 
+    $input_food_codes = trim($_POST["codes"]);
+    if(empty($input_food_codes)){
+        $codes_err = "Please enter an prices.";     
+    } else{
+        $sql = "SELECT codes from products";
+        $result = mysqli_query($link,$sql);
+        if($result)
+        {
+            while($row = mysqli_fetch_assoc($result))
+            {
+                if ($row['codes'] == $input_food_codes ) {
+                    $codes_err = "codes da ton tai, nhap lai codes moi";
+                }else{
+                    $codes = $input_food_codes;
+                }
+            }
+        }                          
+    }
+
     
     // Check input errors before inserting in database
     if(empty($food_name_err) && empty($prices_err) && empty($description_err)
-     && empty($category_id_err) && empty($status_err)){
+     && empty($category_id_err) && empty($status_err) && empty($codes_err)){
         // Prepare an insert statement
-        $sql = "INSERT INTO foods (food_name, prices, description, category_id, status) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO products (product_name, prices, description, category_id, status, codes) VALUES (?, ?, ?, ?, ?, ?)";
          
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "sisis", $param_food_name, $param_prices, $param_description, $param_cate_id, $param_status);
+            mysqli_stmt_bind_param($stmt, "sisiis", $param_food_name, $param_prices, $param_description, $param_cate_id, $param_status, $param_codes);
             
             // Set parameters
             $param_food_name = $food_name;
@@ -71,6 +89,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $param_description = $description;
             $param_cate_id = $category_id;
             $param_status = $status;
+            $param_codes = $codes;
             
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
@@ -121,7 +140,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         </div>
                         <div class="form-group <?php echo (!empty($prices_err)) ? 'has-error' : ''; ?>">
                             <label>Prices</label>
-                            <textarea name="prices" class="form-control"><?php echo $prices; ?></textarea>
+                            <input type='number' name="prices" class="form-control" value="<?php echo $prices; ?>">
                             <span class="help-block"><?php echo $prices_err;?></span>
                         </div>
                         <div class="form-group <?php echo (!empty($description_err)) ? 'has-error' : ''; ?>">
@@ -151,6 +170,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             <label>Status</label>
                             <input type="text" name="status" class="form-control" value="<?php echo $status; ?>">
                             <span class="help-block"><?php echo $status_err;?></span>
+                        </div>
+                        <div class="form-group <?php echo (!empty($codes_err)) ? 'has-error' : ''; ?>">
+                            <label>codes</label>
+                            <input type="text" name="codes" class="form-control" value="<?php echo $codes; ?>">
+                            <span class="help-block"><?php echo $codes_err;?></span>
                         </div>
                         <input type="submit" class="btn btn-primary" value="Submit">
                         <a href="index.php" class="btn btn-default">Cancel</a>

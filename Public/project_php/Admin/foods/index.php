@@ -49,7 +49,7 @@
                         <a href="../category/index.php"  aria-haspopup="true" aria-expanded="false"><i class="menu-icon fa fa-star"></i>Categories</a>
                     </li>
                     <li class="menu-item-has-children dropdown">
-                        <a href="../foods/index.php" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Foods</a>   
+                        <a href="../foods/index.php" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Products</a>   
                     </li>
                     <li class="menu-item-has-children dropdown">
                         <a href="../image-food/index.php" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th"></i>Images</a>
@@ -97,7 +97,7 @@
                             </form>
                         </div>
                     </div>
-                    <div class="user-area dropdown float-right" style="padding-right: 5em;">
+                    <div class="user-area dropdown float-right"">
                         <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img class="user-avatar rounded-circle" src="images/boss-512.png" alt="User Avatar">
                         </a>
@@ -105,10 +105,14 @@
                             <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
                             <a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span class="count">13</span></a>
                             <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
-                            <a class="nav-link" href="#"><i class="fa fa-power -off"></i>Logout</a>
+                            <a class="nav-link" href="../logout.php"><i class="fa fa-power -off"></i>Logout</a>
                         </div>
                     </div>
-
+                    <div>
+                        <?php 
+                            echo $_SESSION["username"];
+                         ?>
+                    </div>
                 </div>
             </div>
         </header>
@@ -130,7 +134,7 @@
                     require_once "config.php";
                     
                     // Attempt select query execution
-                    $sql = "SELECT * FROM foods";
+                    $sql = "SELECT * FROM products";
                     if($result = mysqli_query($link, $sql)){
                         if(mysqli_num_rows($result) > 0){
                             echo "<table class='table table-bordered table-striped'>";
@@ -142,6 +146,7 @@
                                         echo "<th>Decription</th>";
                                         echo "<th>Category</th>";
                                         echo "<th>Status</th>";
+                                        echo "<th>Code</th>";
                                         echo "<th>Action</th>";
                                     echo "</tr>";
                                 echo "</thead>";
@@ -149,7 +154,7 @@
                                 while($row = mysqli_fetch_array($result)){
                                     echo "<tr>";
                                         echo "<td>" . $row['id'] . "</td>";
-                                        echo "<td>" . $row['food_name'] . "</td>";
+                                        echo "<td>" . $row['product_name'] . "</td>";
                                         echo "<td>" . $row['prices'] . "</td>";
                                         echo "<td>" . $row['description'] . "</td>";
                                         echo "<td>"; 
@@ -160,11 +165,11 @@
                                             {
                                                 ?>
                                                 <option value= "<?php echo $rowCa['id']; ?>"><?php echo $rowCa['cate_name']; ?></option>
-
                                                <?php
                                            }
                                        "</td>";
                                         echo "<td>" . $row['status'] . "</td>";
+                                        echo "<td>" . $row['codes'] . "</td>";
                                         echo "<td>";
                                         echo "<a href='read.php?id=". $row['id'] ."' title='View Record' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'>&nbsp;</span></a>";
                                         echo "<a href='update.php?id=". $row['id'] ."' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'>&nbsp;</span></a>";

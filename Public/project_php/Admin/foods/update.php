@@ -3,8 +3,8 @@
 require_once "config.php";
  
 // Define variables and initialize with empty values
-$food_name = $prices = $description = $category_id = $status = "";
-$food_name_err = $prices_err = $description_err = $category_id_err = $status_err = "";
+$product_name = $prices = $description = $category_id = $status = $codes = "";
+$product_name_err = $prices_err = $description_err = $category_id_err = $status_err = $codes_err = "";
  
 // Processing form data when form is submitted
 if(isset($_POST["id"]) && !empty($_POST["id"])){
@@ -12,11 +12,11 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
     $id = $_POST["id"];
     
     // Validate food name
-    $input_food_name = trim($_POST["food_name"]);
-    if(empty($input_food_name)){
-        $food_name_err = "Please enter a name.";
+    $input_product_name = trim($_POST["product_name"]);
+    if(empty($input_product_name)){
+        $product_name_err = "Please enter a name.";
     }else{
-        $food_name = $input_food_name;
+        $product_name = $input_product_name;
     }
     
     // Validate prices
@@ -54,23 +54,56 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
     } else{
         $status = $input_food_status;
     }
+
+    $input_food_codes = trim($_POST["codes"]);
+    if(empty($input_food_codes)){
+        $codes_err = "Please enter an prices.";     
+    } else{
+        $res_cate_id = mysqli_query($link,"SELECT * FROM products WHERE id = ". trim($_GET["id"]));
+        while($rowCa = mysqli_fetch_assoc($res_cate_id))
+        {
+            $Codee = $rowCa['codes'];  
+        }
+
+        $sql = "SELECT codes from products";
+        $result = mysqli_query($link,$sql);
+
+        if($result)
+        {
+            while($rowPr = mysqli_fetch_assoc($result))
+            {
+                if ($input_food_codes == $rowPr['codes']) {
+                    if ($input_food_codes == $Codee) {
+                        $codes = $input_food_codes;
+                    }
+                    else{
+                        $codes_err = "Code này có rồi";
+                    }
+                }else{
+                    $codes = $input_food_codes;
+                }
+            }
+        }
+
+    }
     
     // Check input errors before inserting in database
-    if(empty($food_name_err) && empty($prices_err) && empty($description_err)
-     && empty($category_id_err) && empty($status_err)){
+    if(empty($product_name_err) && empty($prices_err) && empty($description_err)
+     && empty($category_id_err) && empty($status_err) && empty($codes_err)){
         // Prepare an update statement
-        $sql = "UPDATE foods SET food_name=?, prices=?, description=?, category_id=?, status=? WHERE id=?";
+        $sql = "UPDATE products SET product_name=?, prices=?, description=?, category_id=?, status=?, codes=? WHERE id=?";
          
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "sisisi", $param_food_name, $param_prices, $param_description, $param_cate_id, $param_status, $param_id);
+            mysqli_stmt_bind_param($stmt, "sisiisi", $param_product_name, $param_prices, $param_description, $param_cate_id, $param_status, $param_codes, $param_id);
             
             // Set parameters
-            $param_food_name = $food_name;
+            $param_product_name = $product_name;
             $param_prices = $prices;
             $param_description = $description;
             $param_cate_id = $category_id;
             $param_status = $status;
+            $param_codes = $codes;
             $param_id = $id;
             
             // Attempt to execute the prepared statement
@@ -96,7 +129,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
         $id =  trim($_GET["id"]);
         
         // Prepare a select statement
-        $sql = "SELECT * FROM foods WHERE id = ?";
+        $sql = "SELECT * FROM products WHERE id = ?";
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
             mysqli_stmt_bind_param($stmt, "i", $param_id);
@@ -113,11 +146,12 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
                     
                     // Retrieve individual field value
-                    $food_name = $row["food_name"];
+                    $product_name = $row["product_name"];
                     $prices = $row["prices"];
                     $description = $row["description"];
                     $category_id = $row["category_id"];
                     $status = $row["status"];
+                    $codes = $row["codes"];
                 } else{
                     // URL doesn't contain valid id. Redirect to error page
                     header("location: error.php");
@@ -165,10 +199,10 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                     </div>
                     <p>Please edit the input values and submit to update the record.</p>
                     <form action="<?php echo htmlspecialchars(basename($_SERVER['REQUEST_URI'])); ?>" method="post">
-                        <div class="form-group <?php echo (!empty($food_name_err)) ? 'has-error' : ''; ?>">
+                        <div class="form-group <?php echo (!empty($product_name_err)) ? 'has-error' : ''; ?>">
                             <label>Food Name</label>
-                            <input type="text" name="food_name" class="form-control" value="<?php echo $food_name; ?>">
-                            <span class="help-block"><?php echo $food_name_err;?></span>
+                            <input type="text" name="product_name" class="form-control" value="<?php echo $product_name; ?>">
+                            <span class="help-block"><?php echo $product_name_err;?></span>
                         </div>
                         <div class="form-group <?php echo (!empty($prices_err)) ? 'has-error' : ''; ?>">
                             <label>Prices</label>
@@ -200,7 +234,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                                     while($rowCate = mysqli_fetch_assoc($resCate))
                                     {
                                         if ($rowCate['id'] != $row['category_id']) {
-                                        # code...
+                                        # codes...
                                     
                                 ?>
                                         <option value="<?php echo $rowCate['id']; ?>"><?php echo $rowCate['cate_name']; ?></option>   
@@ -219,6 +253,11 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                             <label>Status</label>
                             <input type="text" name="status" class="form-control" value="<?php echo $status; ?>">
                             <span class="help-block"><?php echo $status_err;?></span>
+                        </div>
+                        <div class="form-group <?php echo (!empty($status_err)) ? 'has-error' : ''; ?>">
+                            <label>codes</label>
+                            <input type="text" name="codes" class="form-control" value="<?php echo $codes; ?>">
+                            <span class="help-block"><?php echo $codes_err;?></span>
                         </div>
                         <input type="hidden" name="id" value="<?php echo $id; ?>"/>
                         <input type="submit" class="btn btn-primary" value="Submit">

@@ -5,7 +5,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
     require_once "config.php";
     
     // Prepare a select statement
-    $sql = "SELECT * FROM foods WHERE id = ?";
+    $sql = "SELECT * FROM products WHERE id = ?";
     
     if($stmt = mysqli_prepare($link, $sql)){
         // Bind variables to the prepared statement as parameters
@@ -23,11 +23,12 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
                 $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
                 
                 // Retrieve individual field value
-                $food_name = $row["food_name"];
+                $food_name = $row["product_name"];
                 $prices = $row["prices"];
                 $description = $row["description"];
                 $category_id = $row["category_id"];
                 $status = $row["status"];
+                $code = $row["codes"];
             } else{
                 // URL doesn't contain valid id parameter. Redirect to error page
                 header("location: error.php");
@@ -53,7 +54,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>View Food</title>
+    <title>View Products</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
     <style type="text/css">
         .wrapper{
@@ -72,7 +73,7 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
                     </div>
                     <div class="form-group">
                         <label>Food name</label>
-                        <p class="form-control-static"><?php echo $row["food_name"]; ?></p>
+                        <p class="form-control-static"><?php echo $row["product_name"]; ?></p>
                     </div>
                     <div class="form-group">
                         <label>Prices</label>
@@ -89,6 +90,10 @@ if(isset($_GET["id"]) && !empty(trim($_GET["id"]))){
                     <div class="form-group">
                         <label>Status</label>
                         <p class="form-control-static"><?php echo $row["status"]; ?></p>
+                    </div>
+                    <div class="form-group">
+                        <label>Code</label>
+                        <p class="form-control-static"><?php echo $row["codes"]; ?></p>
                     </div>
                     <p><a href="index.php" class="btn btn-primary">Back</a></p>
                 </div>

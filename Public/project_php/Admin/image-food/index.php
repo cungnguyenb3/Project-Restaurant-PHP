@@ -1,4 +1,4 @@
-<?php 
+    <?php 
     error_reporting(1);
     session_start();
  ?>
@@ -49,7 +49,7 @@
                         <a href="../category/index.php"  aria-haspopup="true" aria-expanded="false"><i class="menu-icon fa fa-star"></i>Categories</a>
                     </li>
                     <li class="menu-item-has-children dropdown">
-                        <a href="../foods/index.php" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Foods</a>   
+                        <a href="../foods/index.php" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Products</a>   
                     </li>
                     <li class="menu-item-has-children dropdown">
                         <a href="../image-food/index.php" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th"></i>Images</a>
@@ -97,7 +97,7 @@
                             </form>
                         </div>
                     </div>
-                    <div class="user-area dropdown float-right" style="padding-right: 5em;">
+                    <div class="user-area dropdown float-right">
                         <a href="#" class="dropdown-toggle active" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img class="user-avatar rounded-circle" src="images/boss-512.png" alt="User Avatar">
                         </a>
@@ -105,10 +105,14 @@
                             <a class="nav-link" href="#"><i class="fa fa- user"></i>My Profile</a>
                             <a class="nav-link" href="#"><i class="fa fa- user"></i>Notifications <span class="count">13</span></a>
                             <a class="nav-link" href="#"><i class="fa fa -cog"></i>Settings</a>
-                            <a class="nav-link" href="#"><i class="fa fa-power -off"></i>Logout</a>
+                            <a class="nav-link" href="../logout.php"><i class="fa fa-power -off"></i>Logout</a>
                         </div>
                     </div>
-
+                    <div >
+                        <?php 
+                            echo $_SESSION["username"];
+                         ?>
+                    </div>
                 </div>
             </div>
         </header>
@@ -122,7 +126,7 @@
                     <div class="row">
                 <div class="col-md-12">
                     <div class="page-header clearfix">
-                        <h2 class="pull-left">Image Food Details</h2>
+                        <h2 class="pull-left">Image Product Details</h2>
                         <a href="create.php" class="btn btn-success pull-right" style="margin-top: 1em;" >Add New Image</a>
                     </div>
                     <?php
@@ -130,15 +134,17 @@
                     require_once "config.php";
                     
                     // Attempt select query execution
-                     $sql = "SELECT image.id,foods.food_name,image.link FROM foods,image where foods.id = image.food_id";
+                     $sql = "SELECT images.id,products.product_name,images.caption,images.status,images.link FROM products,images where products.id = images.product_id";
                     if($result = mysqli_query($link, $sql)){
                         if(mysqli_num_rows($result) > 0){
                             echo "<table class='table table-bordered table-striped'>";
                                 echo "<thead>";
                                     echo "<tr>";
                                         echo "<th>#</th>";
-                                        echo "<th>Food Name</th>";
-                                        echo "<th>Image Name</th>";
+                                        echo "<th>Product Name</th>";
+                                        echo "<th>Caption</th>";
+                                        echo "<th>Status</th>";
+                                        echo "<th>Link</th>";
                                         echo "<th>Action</th>";
                                     echo "</tr>";
                                 echo "</thead>";
@@ -146,7 +152,9 @@
                                 while($row = mysqli_fetch_array($result)){
                                     echo "<tr>";
                                         echo "<td>" . $row['id'] . "</td>";
-                                        echo "<td>" . $row['food_name'] . "</td>";
+                                        echo "<td>" . $row['product_name'] . "</td>";
+                                        echo "<td>" . $row['caption'] . "</td>";
+                                        echo "<td>" . $row['status'] . "</td>";
                                         echo "<td>" . $row['link'] . "</td>";
                                          echo "<td>";
                                             echo "<a href='read.php?id=". $row['id'] ."' title='View Record' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'>&nbsp;</span></a>";
